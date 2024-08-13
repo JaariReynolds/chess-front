@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { AvailableTeamActions, Gameboard } from "../types/gameboard";
 import { DataTransferObject } from "../types/dataTransferObjects";
 
-interface InitialFetchProps {
+interface InitializeGameEffectProps {
   url: string;
   setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
   setTeamActions: React.Dispatch<React.SetStateAction<AvailableTeamActions>>;
@@ -11,13 +11,13 @@ interface InitialFetchProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const initializeGame = ({
+export default function initializeGameEffect({
   url,
   setGameboard,
   setTeamActions,
   setError,
   setLoading,
-}: InitialFetchProps) => {
+}: InitializeGameEffectProps) {
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,6 +37,4 @@ const initializeGame = ({
 
     fetchData();
   }, []);
-};
-
-export default initializeGame;
+}
