@@ -52,6 +52,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     url: "https://localhost:7179/api/chess/perform",
     currentGameboard: gameboard,
     selectedAction,
+    setSelectedAction,
     setGameboard,
     setTeamActions,
     setError,

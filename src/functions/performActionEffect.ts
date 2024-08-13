@@ -7,6 +7,7 @@ interface PerformActionEffectProps {
   url: string;
   currentGameboard: Gameboard;
   selectedAction: Action | null;
+  setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
   setTeamActions: React.Dispatch<React.SetStateAction<AvailableTeamActions>>;
   setError: React.Dispatch<React.SetStateAction<Error | null>>;
@@ -17,6 +18,7 @@ export default function performActionEffect({
   url,
   currentGameboard,
   selectedAction,
+  setSelectedAction,
   setGameboard,
   setTeamActions,
   setError,
@@ -51,6 +53,7 @@ export default function performActionEffect({
         const { gameboard, actions }: DataTransferObject = await response.json();
         setGameboard(gameboard);
         setTeamActions(actions);
+        setSelectedAction(null);
       } catch (error) {
         setError(error as Error);
       } finally {
