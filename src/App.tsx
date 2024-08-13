@@ -1,4 +1,5 @@
 import "./App.css";
+import Gameboard from "./components/gameboard";
 import { useChessContext } from "./contexts/chessContext";
 import { Action } from "./types/gameboard";
 
@@ -27,12 +28,13 @@ function App() {
 
   return (
     <>
-      <button type="submit" onClick={() => setSelectedAction(action)}>
+      {/* <button type="submit" onClick={() => setSelectedAction(action)}>
         set action
-      </button>
-      <div style={{ textAlign: "left" }}>
+      </button> */}
+      {/* <div style={{ textAlign: "left" }}>
         <pre>{JSON.stringify(teamActions, null, 2)};</pre>
-      </div>
+      </div> */}
+      <Gameboard />
     </>
   );
 }
