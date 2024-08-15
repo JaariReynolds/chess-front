@@ -34,7 +34,3 @@ export interface AvailablePieceActions {
   piece: Piece;
   actions: Action[];
 }
-
-export interface AvailableTeamActions {
-  actions: AvailablePieceActions[];
-}

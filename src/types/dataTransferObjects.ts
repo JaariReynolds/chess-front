@@ -1,8 +1,8 @@
-import { Action, AvailableTeamActions, Gameboard } from "./gameboard";
+import { Action, AvailablePieceActions, Gameboard } from "./gameboard";
 
 export type DataTransferObject = {
   gameboard: Gameboard;
-  actions: AvailableTeamActions;
+  actions: AvailablePieceActions[];
 };
 
 export type GameboardActionRequestObject = {
