@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from "react";
-import { AvailableTeamActions, Gameboard } from "../types/gameboard";
+import { AvailablePieceActions, Gameboard } from "../types/gameboard";
 import { DataTransferObject } from "../types/dataTransferObjects";
 
 interface InitializeGameEffectProps {
   url: string;
   setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
-  setTeamActions: React.Dispatch<React.SetStateAction<AvailableTeamActions>>;
+  setTeamActions: React.Dispatch<React.SetStateAction<AvailablePieceActions[]>>;
   setError: React.Dispatch<React.SetStateAction<Error | null>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }

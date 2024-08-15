@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from "react";
 import { DataTransferObject, GameboardActionRequestObject } from "../types/dataTransferObjects";
-import { Action, AvailableTeamActions, Gameboard } from "../types/gameboard";
+import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 
 interface PerformActionEffectProps {
   url: string;
   currentGameboard: Gameboard;
   selectedAction: Action | null;
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
+  setPieceActions: React.Dispatch<React.SetStateAction<Action[]>>;
   setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
-  setTeamActions: React.Dispatch<React.SetStateAction<AvailableTeamActions>>;
+  setTeamActions: React.Dispatch<React.SetStateAction<AvailablePieceActions[]>>;
   setError: React.Dispatch<React.SetStateAction<Error | null>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -19,6 +20,7 @@ export default function performActionEffect({
   currentGameboard,
   selectedAction,
   setSelectedAction,
+  setPieceActions,
   setGameboard,
   setTeamActions,
   setError,
@@ -53,7 +55,9 @@ export default function performActionEffect({
         const { gameboard, actions }: DataTransferObject = await response.json();
         setGameboard(gameboard);
         setTeamActions(actions);
+        // clear the actions from the previous move
         setSelectedAction(null);
+        setPieceActions([]);
       } catch (error) {
         setError(error as Error);
       } finally {
