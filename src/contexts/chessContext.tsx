@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { Action, AvailableTeamActions, Gameboard } from "../types/gameboard";
+import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import initializeGameEffect from "../functions/initializeGameEffect";
 import performActionEffect from "../functions/performActionEffect";
 
@@ -9,8 +9,10 @@ interface ChessContextProviderProps {
 
 interface ChessContext {
   gameboard: Gameboard;
-  teamActions: AvailableTeamActions;
+  teamActions: AvailablePieceActions[];
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
+  pieceActions: Action[];
+  setPieceActions: React.Dispatch<React.SetStateAction<Action[]>>;
   error: Error | null;
   loading: boolean;
 }
@@ -27,16 +29,13 @@ const defaultGameboard: Gameboard = {
   checkmateTeamColour: "None",
 };
 
-const defaultTeamActions: AvailableTeamActions = {
-  actions: [],
-};
-
 const ChessContext = createContext<ChessContext | null>(null);
 
 export default function ChessContextProvider({ children }: ChessContextProviderProps) {
   const [gameboard, setGameboard] = useState<Gameboard>(defaultGameboard);
-  const [teamActions, setTeamActions] = useState<AvailableTeamActions>(defaultTeamActions);
+  const [teamActions, setTeamActions] = useState<AvailablePieceActions[]>([]);
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
+  const [pieceActions, setPieceActions] = useState<Action[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -53,6 +52,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     currentGameboard: gameboard,
     selectedAction,
     setSelectedAction,
+    setPieceActions,
     setGameboard,
     setTeamActions,
     setError,
@@ -60,7 +60,17 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   });
 
   return (
-    <ChessContext.Provider value={{ gameboard, teamActions, setSelectedAction, error, loading }}>
+    <ChessContext.Provider
+      value={{
+        gameboard,
+        teamActions,
+        setSelectedAction,
+        pieceActions,
+        setPieceActions,
+        error,
+        loading,
+      }}
+    >
       {children}
     </ChessContext.Provider>
   );
