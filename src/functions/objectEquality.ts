@@ -1,6 +1,8 @@
 import { Piece, Square } from "../types/gameboard";
 
-export function arePiecesEqual(piece1: Piece, piece2: Piece): boolean {
+export function arePiecesEqual(piece1: Piece | null, piece2: Piece | null): boolean {
+  if (piece1 == null || piece2 == null) return false;
+
   return (
     piece1.name === piece2.name &&
     piece1.teamColour === piece2.teamColour &&
