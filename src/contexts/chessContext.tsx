@@ -11,8 +11,8 @@ interface ChessContext {
   gameboard: Gameboard;
   teamActions: AvailablePieceActions[];
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
-  pieceActions: Action[];
-  setPieceActions: React.Dispatch<React.SetStateAction<Action[]>>;
+  pieceActions: AvailablePieceActions | null;
+  setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
   error: Error | null;
   loading: boolean;
 }
@@ -35,7 +35,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [gameboard, setGameboard] = useState<Gameboard>(defaultGameboard);
   const [teamActions, setTeamActions] = useState<AvailablePieceActions[]>([]);
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
-  const [pieceActions, setPieceActions] = useState<Action[]>([]);
+  const [pieceActions, setPieceActions] = useState<AvailablePieceActions | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 

@@ -8,7 +8,7 @@ interface PerformActionEffectProps {
   currentGameboard: Gameboard;
   selectedAction: Action | null;
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
-  setPieceActions: React.Dispatch<React.SetStateAction<Action[]>>;
+  setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
   setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
   setTeamActions: React.Dispatch<React.SetStateAction<AvailablePieceActions[]>>;
   setError: React.Dispatch<React.SetStateAction<Error | null>>;
@@ -28,12 +28,10 @@ export default function performActionEffect({
 }: PerformActionEffectProps) {
   useEffect(() => {
     if (selectedAction == null) {
-      console.log("null action, aborting post");
       return;
     }
 
     async function postData() {
-      console.log("performing action..");
       try {
         const requestBody = {
           gameboard: currentGameboard,
@@ -57,7 +55,7 @@ export default function performActionEffect({
         setTeamActions(actions);
         // clear the actions from the previous move
         setSelectedAction(null);
-        setPieceActions([]);
+        setPieceActions(null);
       } catch (error) {
         setError(error as Error);
       } finally {
