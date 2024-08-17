@@ -3,6 +3,7 @@ import "../components/gameboard.css";
 import { Piece, Square } from "../types/gameboard";
 import getActionsForPiece from "../functions/getActionsForPiece";
 import { arePiecesEqual, areSquaresEqual } from "../functions/objectEquality";
+import getSquareOpacity from "../functions/getSquareOpacity";
 
 export default function Gameboard() {
   const { gameboard, teamActions, setSelectedAction, pieceActions, setPieceActions } =
@@ -34,16 +35,6 @@ export default function Gameboard() {
 
   // NEED TO ADD SOME INTERFACE TO ALLOW SELECTION OF PAWN PROMOTION (currently defaults to knight)
 
-  function getSquareOpacity(square: Square): number {
-    if (pieceActions == null) return 1;
-
-    const actionableSquare = pieceActions.actions.some((action) =>
-      areSquaresEqual(action.square, square)
-    );
-
-    return actionableSquare ? 0.3 : 1;
-  }
-
   return (
     <div className="chessboard">
       {gameboard.board.map((row, rowIndex) =>
@@ -51,7 +42,7 @@ export default function Gameboard() {
           <button
             type="button"
             onClick={() => handleSquarePress(piece, { x: rowIndex, y: colIndex })}
-            style={{ opacity: getSquareOpacity({ x: rowIndex, y: colIndex }) }}
+            style={{ opacity: getSquareOpacity({ x: rowIndex, y: colIndex }, pieceActions) }}
             key={parseInt(rowIndex.toString() + colIndex.toString())}
             className="square"
           >
