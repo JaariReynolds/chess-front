@@ -5,6 +5,7 @@ import getActionsForPiece from "../functions/getActionsForPiece";
 import { arePiecesEqual, areSquaresEqual } from "../functions/objectEquality";
 import getSquareOpacity from "../functions/getSquareOpacity";
 import isPawnPromoteAction from "../functions/isPawnPromoteAction";
+import getChessIcon from "../functions/getChessIcon";
 
 export default function Gameboard() {
   const {
@@ -22,6 +23,7 @@ export default function Gameboard() {
       areSquaresEqual(action.square, square)
     );
 
+    // if actionableSquare was a promote action, show component for user to select promotion
     if (actionableSquare && isPawnPromoteAction(actionableSquare)) {
       setPromotionActionBase(actionableSquare);
       setPromotionSelectionVisible(true);
@@ -33,6 +35,7 @@ export default function Gameboard() {
       setSelectedAction(actionableSquare);
       return;
     }
+
     // if clicking on a square thats not highlighted, highlight the actionable squares for that piece
     else {
       //if reclicking the selected square, de-select the piece
@@ -47,8 +50,6 @@ export default function Gameboard() {
     }
   }
 
-  // NEED TO ADD SOME INTERFACE TO ALLOW SELECTION OF PAWN PROMOTION (currently defaults to knight)
-
   return (
     <div className="chessboard">
       {gameboard.board.map((row, rowIndex) =>
@@ -60,11 +61,7 @@ export default function Gameboard() {
             key={parseInt(rowIndex.toString() + colIndex.toString())}
             className="square"
           >
-            <span
-              style={{ color: piece ? (piece.teamColour == "White" ? "white" : "black") : "white" }}
-            >
-              {piece ? piece.name : ""}{" "}
-            </span>
+            {piece ? getChessIcon(piece.name, piece.teamColour) : ""}{" "}
           </button>
         ))
       )}
