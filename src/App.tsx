@@ -1,10 +1,11 @@
 import "./App.css";
 import CheckStatus from "./components/CheckStatus";
-import Gameboard from "./components/gameboard";
+import Gameboard from "./components/Gameboard";
+import PromotionSelection from "./components/PromotionSelection";
 import { useChessContext } from "./contexts/chessContext";
 
 function App() {
-  const { error } = useChessContext();
+  const { error, promotionSelectionVisible } = useChessContext();
 
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
         <pre>{JSON.stringify(teamActions, null, 2)};</pre>
       </div> */}
       <CheckStatus />
+      {promotionSelectionVisible && <PromotionSelection />}
       <Gameboard />
     </>
   );

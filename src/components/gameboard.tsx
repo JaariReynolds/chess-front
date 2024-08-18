@@ -4,15 +4,29 @@ import { Piece, Square } from "../types/gameboard";
 import getActionsForPiece from "../functions/getActionsForPiece";
 import { arePiecesEqual, areSquaresEqual } from "../functions/objectEquality";
 import getSquareOpacity from "../functions/getSquareOpacity";
+import isPawnPromoteAction from "../functions/isPawnPromoteAction";
 
 export default function Gameboard() {
-  const { gameboard, teamActions, setSelectedAction, pieceActions, setPieceActions } =
-    useChessContext();
+  const {
+    gameboard,
+    teamActions,
+    setSelectedAction,
+    pieceActions,
+    setPieceActions,
+    setPromotionActionBase,
+    setPromotionSelectionVisible,
+  } = useChessContext();
 
   function handleSquarePress(piece: Piece | null, square: Square) {
     const actionableSquare = pieceActions?.actions.find((action) =>
       areSquaresEqual(action.square, square)
     );
+
+    if (actionableSquare && isPawnPromoteAction(actionableSquare)) {
+      setPromotionActionBase(actionableSquare);
+      setPromotionSelectionVisible(true);
+      return;
+    }
 
     // if clicking on a square thats been highlighted as an actionable square, perform the action
     if (actionableSquare) {

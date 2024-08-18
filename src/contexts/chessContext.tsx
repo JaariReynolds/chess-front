@@ -1,7 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import initializeGameEffect from "../functions/initializeGameEffect";
 import performActionEffect from "../functions/performActionEffect";
+import { ActionType } from "../types/literals";
 
 interface ChessContextProviderProps {
   children: React.ReactNode;
@@ -13,6 +14,10 @@ interface ChessContext {
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   pieceActions: AvailablePieceActions | null;
   setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
+  promotionActionBase: Action | null;
+  setPromotionActionBase: React.Dispatch<React.SetStateAction<Action | null>>;
+  promotionSelectionVisible: boolean;
+  setPromotionSelectionVisible: React.Dispatch<React.SetStateAction<boolean>>;
   error: Error | null;
   loading: boolean;
 }
@@ -36,6 +41,10 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [teamActions, setTeamActions] = useState<AvailablePieceActions[]>([]);
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
   const [pieceActions, setPieceActions] = useState<AvailablePieceActions | null>(null);
+
+  const [promotionActionBase, setPromotionActionBase] = useState<Action | null>(null);
+  const [promotionSelectionVisible, setPromotionSelectionVisible] = useState<boolean>(false);
+
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -67,6 +76,10 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setSelectedAction,
         pieceActions,
         setPieceActions,
+        promotionActionBase,
+        setPromotionActionBase,
+        promotionSelectionVisible,
+        setPromotionSelectionVisible,
         error,
         loading,
       }}
