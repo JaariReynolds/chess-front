@@ -1,4 +1,4 @@
-import { ActionType, CheckStatus, TeamColour } from "./literals";
+import { ActionType, CheckStatus, PieceName, TeamColour } from "./literals";
 
 export interface Square {
   x: number;
@@ -6,7 +6,7 @@ export interface Square {
 }
 
 export interface Piece {
-  name: string;
+  name: PieceName;
   square: Square;
   teamColour: TeamColour;
   pieceValue: number;
