@@ -1,8 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import initializeGameEffect from "../functions/initializeGameEffect";
 import performActionEffect from "../functions/performActionEffect";
-import { ActionType } from "../types/literals";
 
 interface ChessContextProviderProps {
   children: React.ReactNode;
@@ -18,6 +17,7 @@ interface ChessContext {
   setPromotionActionBase: React.Dispatch<React.SetStateAction<Action | null>>;
   promotionSelectionVisible: boolean;
   setPromotionSelectionVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   error: Error | null;
   loading: boolean;
 }
@@ -47,6 +47,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
 
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [resetTrigger, setResetTrigger] = useState<boolean>(false);
 
   initializeGameEffect({
     url: "https://localhost:7179/api/chess/initialState",
@@ -54,6 +55,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     setTeamActions,
     setError,
     setLoading,
+    resetTrigger,
   });
 
   performActionEffect({
@@ -80,6 +82,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setPromotionActionBase,
         promotionSelectionVisible,
         setPromotionSelectionVisible,
+        setResetTrigger,
         error,
         loading,
       }}

@@ -9,6 +9,7 @@ interface InitializeGameEffectProps {
   setTeamActions: React.Dispatch<React.SetStateAction<AvailablePieceActions[]>>;
   setError: React.Dispatch<React.SetStateAction<Error | null>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  resetTrigger: boolean;
 }
 
 export default function initializeGameEffect({
@@ -17,6 +18,7 @@ export default function initializeGameEffect({
   setTeamActions,
   setError,
   setLoading,
+  resetTrigger,
 }: InitializeGameEffectProps) {
   useEffect(() => {
     const fetchData = async () => {
@@ -36,5 +38,5 @@ export default function initializeGameEffect({
     };
 
     fetchData();
-  }, []);
+  }, [resetTrigger]);
 }
