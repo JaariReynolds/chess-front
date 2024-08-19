@@ -12,6 +12,7 @@
   background-color: #e6ddb0;
   border-width: 1px;
   border-style: solid;
+  aspect-ratio: 1/1;
 }
 
 .square:nth-child(16n + 2),

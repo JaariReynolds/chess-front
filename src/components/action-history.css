@@ -1,0 +1,10 @@
+.action-history-container {
+  text-align: left;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

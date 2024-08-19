@@ -2,3 +2,8 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.app-container {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+}
