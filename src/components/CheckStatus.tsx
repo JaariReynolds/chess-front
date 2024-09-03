@@ -17,5 +17,5 @@ export default function CheckStatus() {
     return message;
   }
 
-  return <>{getCheckStatusMessage()}</>;
+  return <div style={{ border: "1px solid black" }}>{getCheckStatusMessage()}</div>;
 }

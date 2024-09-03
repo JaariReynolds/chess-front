@@ -6,7 +6,7 @@ export default function Reset() {
   const { setResetTrigger } = useChessContext();
 
   return (
-    <div>
+    <div style={{ border: "1px solid black" }}>
       <button title="reset" onClick={() => setResetTrigger((prev) => !prev)}>
         <FontAwesomeIcon icon={faRotateRight} />
       </button>

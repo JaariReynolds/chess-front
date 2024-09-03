@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="app-container">
-      {error && <div>Error: {error.message}</div>}
+      {/* {error && <div>Error: {error.message}</div>} */}
 
       {promotionSelectionVisible && <PromotionSelection />}
       <Gameboard />

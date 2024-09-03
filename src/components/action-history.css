@@ -1,7 +1,13 @@
 .action-history-container {
-  text-align: left;
-  border: 1px solid black;
   text-align: center;
+  border: 1px solid black;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable both-edges;
+  scroll-margin-top: auto;
+  /* display: flex; */
+  /* flex-direction: column-reverse; */
+  /* height: max-content; */
 }
 
 .grid-container {

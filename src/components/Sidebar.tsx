@@ -1,10 +1,11 @@
 import ActionHistory from "./ActionHistory";
 import CheckStatus from "./CheckStatus";
 import Reset from "./Reset";
+import "../components/sidebar.css";
 
 export default function Sidebar() {
   return (
-    <div style={{ display: "grid", gridTemplateRows: "3fr 1fr 1fr" }}>
+    <div className="sidebar-container">
       <ActionHistory />
       <CheckStatus />
       <Reset />
