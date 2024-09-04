@@ -1,5 +1,6 @@
 import { useChessContext } from "../contexts/chessContext";
 import { ActionType } from "../types/literals";
+import "./promotion-selection.css";
 
 export default function PromotionSelection() {
   const {
@@ -21,20 +22,40 @@ export default function PromotionSelection() {
   }
 
   return (
-    <div>
-      <button type="button" onClick={() => handlePromotionSelection("PawnPromoteBishop")}>
+    <div className="promotion-selection-container">
+      <button
+        className="promote-button"
+        type="button"
+        onClick={() => handlePromotionSelection("PawnPromoteBishop")}
+      >
         Bishop
       </button>
-      <button type="button" onClick={() => handlePromotionSelection("PawnPromoteKnight")}>
+      <button
+        className="promote-button"
+        type="button"
+        onClick={() => handlePromotionSelection("PawnPromoteKnight")}
+      >
         Knight
       </button>
-      <button type="button" onClick={() => handlePromotionSelection("PawnPromoteRook")}>
+      <button
+        className="promote-button"
+        type="button"
+        onClick={() => handlePromotionSelection("PawnPromoteRook")}
+      >
         Rook
       </button>
-      <button type="button" onClick={() => handlePromotionSelection("PawnPromoteQueen")}>
+      <button
+        className="promote-button"
+        type="button"
+        onClick={() => handlePromotionSelection("PawnPromoteQueen")}
+      >
         Queen
       </button>
-      <button type="button" onClick={() => setPromotionSelectionVisible(false)}>
+      <button
+        className="promote-button"
+        type="button"
+        onClick={() => setPromotionSelectionVisible(false)}
+      >
         x
       </button>
     </div>
