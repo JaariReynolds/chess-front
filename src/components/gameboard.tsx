@@ -61,7 +61,7 @@ export default function Gameboard() {
             key={parseInt(rowIndex.toString() + colIndex.toString())}
             className="square"
           >
-            {piece ? getChessIcon(piece.name, piece.teamColour) : ""}{" "}
+            {piece ? getChessIcon(piece.name, piece.teamColour) : ""}
           </button>
         ))
       )}
