@@ -1,19 +1,27 @@
+.transparent-gameboard-container {
+  position: absolute;
+  background-color: rgba(17, 17, 26, 0.4);
+  height: 100%;
+  width: 100%;
+}
+
 .promotion-selection-container {
   position: absolute;
   display: flex;
-  gap: 1rem;
   top: 50%;
   left: 50%;
-  background-color: rgba(0, 0, 0, 0.85);
+  transform: translate(-50%, -50%);
+  gap: 1rem;
   border-radius: 1rem;
   padding: 1.5rem 3rem;
-  transform: translate(-50%, -50%);
   z-index: 50;
+  background-color: #242424;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px,
+    rgba(17, 17, 26, 0.1) 0px 24px 80px;
 }
 
 .promote-button {
   height: 5rem;
   width: 5rem;
-  background-color: grey;
   border-radius: 0.5rem;
 }
