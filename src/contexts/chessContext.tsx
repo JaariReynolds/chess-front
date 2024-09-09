@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import initializeGameEffect from "../functions/initializeGameEffect";
 import performActionEffect from "../functions/performActionEffect";
@@ -57,6 +57,13 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     setLoading,
     resetTrigger,
   });
+
+  useEffect(() => {
+    setSelectedAction(null);
+    setPieceActions(null);
+    setPromotionActionBase(null);
+    setPromotionSelectionVisible(false);
+  }, [resetTrigger]);
 
   performActionEffect({
     url: "https://localhost:7179/api/chess/perform",
