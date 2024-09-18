@@ -14,10 +14,13 @@ export default function PromotionSelection() {
   const {
     gameboard,
     promotionActionBase,
+    promotionSelectionVisible,
     setPromotionActionBase,
     setPromotionSelectionVisible,
     setSelectedAction,
   } = useChessContext();
+
+  if (!promotionSelectionVisible) return null;
 
   function handlePromotionSelection(selectedPromotion: ActionType) {
     if (promotionActionBase == null) {
