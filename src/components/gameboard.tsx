@@ -5,7 +5,6 @@ import getActionsForPiece from "../functions/getActionsForPiece";
 import { arePiecesEqual, areSquaresEqual } from "../functions/objectEquality";
 import getSquareOpacity from "../functions/getSquareOpacity";
 import isPawnPromoteAction from "../functions/isPawnPromoteAction";
-import getChessIcon from "../functions/getChessIcon";
 
 export default function Gameboard() {
   const {
@@ -60,9 +59,7 @@ export default function Gameboard() {
             style={{ opacity: getSquareOpacity({ x: rowIndex, y: colIndex }, pieceActions) }}
             key={parseInt(rowIndex.toString() + colIndex.toString())}
             className="square"
-          >
-            {piece ? getChessIcon(piece.name, piece.teamColour) : ""}
-          </button>
+          ></button>
         ))
       )}
     </div>
