@@ -5,6 +5,9 @@ import { arePiecesEqual } from "../functions/objectEquality";
 import getChessIcon from "../functions/getChessIcon";
 import "./piece-component.css";
 import MovingPiece from "./MovingPiece";
+import isPawnPromoteAction from "../functions/isPawnPromoteAction";
+import getPromotionPieceName from "../functions/getPromotionPieceName";
+import getPiecevalueFromName from "../functions/getPieceValueFromName";
 
 export interface MovedPiece {
   piece: Piece;
@@ -12,16 +15,33 @@ export interface MovedPiece {
 }
 
 export default function Pieces() {
-  const { gameboard } = useChessContext();
+  const { gameboard, selectedAction } = useChessContext();
   const [unmovedPieces, setUnmovedPieces] = useState<(Piece | null)[][]>(gameboard.board);
 
   const [movedPieces, setMovedPieces] = useState<(MovedPiece | null)[]>([]);
 
   const isInitialRender = unmovedPieces.every((row) => row.every((piece) => piece === null));
 
+  const [pendingFrom, setPendingFrom] = useState<Piece[]>([]);
+  const [pendingTo, setPendingTo] = useState<Piece[]>([]);
+
   useEffect(() => {
-    const pendingFrom: Piece[] = [];
-    const pendingTo: Piece[] = [];
+    if (selectedAction && isPawnPromoteAction(selectedAction)) {
+      const newName = getPromotionPieceName(selectedAction.actionType)!;
+      const basePiece = {
+        ...selectedAction.piece,
+        name: newName,
+        pieceValue: getPiecevalueFromName(newName),
+      } as Piece;
+
+      setPendingFrom((prev) => [...prev, basePiece]);
+      setPendingTo((prev) => [...prev, { ...basePiece, square: selectedAction.square }]);
+    }
+  }, [selectedAction]);
+
+  useEffect(() => {
+    const tempPendingFrom: Piece[] = [...pendingFrom];
+    const tempPendingTo: Piece[] = [...pendingTo];
 
     const existingPieces = gameboard.board.map((row, rowIndex) =>
       row.map((updatedPiece, colIndex) => {
@@ -34,19 +54,19 @@ export default function Pieces() {
 
         // if a piece has captured/replaced an existing piece,
         if (existingPiece && updatedPiece && !arePiecesEqual(existingPiece, updatedPiece)) {
-          pendingTo.push(updatedPiece);
+          tempPendingTo.push(updatedPiece);
           return null;
         }
 
         // if piece has moved (from old square)
         if (existingPiece && updatedPiece == null) {
-          pendingFrom.push(existingPiece);
+          tempPendingFrom.push(existingPiece);
           return null;
         }
 
         // if piece has moved (to new square)
         if (updatedPiece && existingPiece == null) {
-          pendingTo.push(updatedPiece);
+          tempPendingTo.push(updatedPiece);
           return null;
         }
 
@@ -54,8 +74,8 @@ export default function Pieces() {
       })
     );
 
-    const movedPieces = pendingFrom.map((fromPiece) => {
-      const matchingEnd = pendingTo.find(
+    const movedPieces = tempPendingFrom.map((fromPiece) => {
+      const matchingEnd = tempPendingTo.find(
         (toPiece) => toPiece.name == fromPiece.name && toPiece.teamColour == fromPiece.teamColour
       );
       if (matchingEnd != undefined) {
@@ -86,9 +106,13 @@ export default function Pieces() {
           } as Piece;
         }
       });
+
+      console.log(newStaticPieces);
       setUnmovedPieces(newStaticPieces);
       setMovedPieces([]);
-    }, 500);
+      setPendingFrom([]);
+      setPendingTo([]);
+    }, 250);
   }, [movedPieces, unmovedPieces]);
 
   return (
