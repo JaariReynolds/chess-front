@@ -20,7 +20,7 @@ export default function MovingPiece({ movedPiece }: { movedPiece: MovedPiece }) 
   return (
     <div
       className="piece"
-      style={{ ...style, transition: "transform 0.4s cubic-bezier(.24,.82,.22,.97)" }}
+      style={{ ...style, transition: "transform 0.25s cubic-bezier(.24,.82,.22,.97)" }}
     >
       {getChessIcon(movedPiece.piece.name, movedPiece.piece.teamColour)}
     </div>
