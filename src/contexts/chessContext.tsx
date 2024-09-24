@@ -18,6 +18,7 @@ interface ChessContext {
   setPromotionActionBase: React.Dispatch<React.SetStateAction<Action | null>>;
   promotionSelectionVisible: boolean;
   setPromotionSelectionVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  resetTrigger: boolean;
   setResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   error: Error | null;
   loading: boolean;
@@ -91,6 +92,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setPromotionActionBase,
         promotionSelectionVisible,
         setPromotionSelectionVisible,
+        resetTrigger,
         setResetTrigger,
         error,
         loading,
