@@ -15,8 +15,8 @@ export interface MovedPiece {
 }
 
 export default function Pieces() {
-  const { gameboard, selectedAction } = useChessContext();
-  const [unmovedPieces, setUnmovedPieces] = useState<(Piece | null)[][]>(gameboard.board);
+  const { gameboard, selectedAction, resetTrigger } = useChessContext();
+  const [unmovedPieces, setUnmovedPieces] = useState<(Piece | null)[][]>([]);
 
   const [movedPieces, setMovedPieces] = useState<(MovedPiece | null)[]>([]);
 
@@ -24,6 +24,10 @@ export default function Pieces() {
 
   const [pendingFrom, setPendingFrom] = useState<Piece[]>([]);
   const [pendingTo, setPendingTo] = useState<Piece[]>([]);
+
+  useEffect(() => {
+    setUnmovedPieces([]);
+  }, [resetTrigger]);
 
   useEffect(() => {
     if (selectedAction && isPawnPromoteAction(selectedAction)) {
