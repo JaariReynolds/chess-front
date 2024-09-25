@@ -8,6 +8,10 @@ import MovingPiece from "./MovingPiece";
 import isPawnPromoteAction from "../functions/isPawnPromoteAction";
 import getPromotionPieceName from "../functions/getPromotionPieceName";
 import getPiecevalueFromName from "../functions/getPieceValueFromName";
+import isCaptureActionType from "../functions/isCaptureActionType";
+
+const moveAudio = new Audio("/src/sounds/move.wav");
+const captureAudio = new Audio("/src/sounds/capture.wav");
 
 export interface MovedPiece {
   piece: Piece;
@@ -28,6 +32,13 @@ export default function Pieces() {
   useEffect(() => {
     setUnmovedPieces([]);
   }, [resetTrigger]);
+
+  useEffect(() => {
+    if (!selectedAction) return;
+
+    const audioElement = isCaptureActionType(selectedAction) ? captureAudio : moveAudio;
+    audioElement.play();
+  }, [selectedAction]);
 
   useEffect(() => {
     if (selectedAction && isPawnPromoteAction(selectedAction)) {
