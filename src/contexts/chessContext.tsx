@@ -60,13 +60,6 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     resetTrigger,
   });
 
-  useEffect(() => {
-    setSelectedAction(null);
-    setPieceActions(null);
-    setPromotionActionBase(null);
-    setPromotionSelectionVisible(false);
-  }, [resetTrigger]);
-
   performActionEffect({
     url: "https://localhost:7179/api/chess/perform",
     currentGameboard: gameboard,
@@ -78,6 +71,13 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     setError,
     setLoading,
   });
+
+  useEffect(() => {
+    setSelectedAction(null);
+    setPieceActions(null);
+    setPromotionActionBase(null);
+    setPromotionSelectionVisible(false);
+  }, [resetTrigger]);
 
   return (
     <ChessContext.Provider
