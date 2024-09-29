@@ -30,11 +30,11 @@ body {
   min-height: 100vh;
 }
 
-button:hover {
-  background-color: grey !important;
-}
-
+button,
 button:focus,
-button:focus-visible {
-  /* outline: 4px auto -webkit-focus-ring-color; */
+button:hover {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  font: inherit;
 }
