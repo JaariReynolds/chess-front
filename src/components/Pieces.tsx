@@ -31,6 +31,7 @@ export default function Pieces() {
 
   useEffect(() => {
     setUnmovedPieces([]);
+    moveAudio.play();
   }, [resetTrigger]);
 
   useEffect(() => {
@@ -38,9 +39,7 @@ export default function Pieces() {
 
     const audioElement = isCaptureActionType(selectedAction) ? captureAudio : moveAudio;
     audioElement.play();
-  }, [selectedAction]);
 
-  useEffect(() => {
     if (selectedAction && isPawnPromoteAction(selectedAction)) {
       const newName = getPromotionPieceName(selectedAction.actionType)!;
       const basePiece = {
