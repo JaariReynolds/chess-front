@@ -5,6 +5,7 @@ import getActionsForPiece from "../functions/getActionsForPiece";
 import { arePiecesEqual, areSquaresEqual } from "../functions/objectEquality";
 import getSquareOpacity from "../functions/getSquareOpacity";
 import isPawnPromoteAction from "../functions/isPawnPromoteAction";
+import getCursorStyle from "../functions/getCursorStyle";
 
 export default function Gameboard() {
   const {
@@ -49,6 +50,14 @@ export default function Gameboard() {
     }
   }
 
+  const buttonStyle = (rowIndex: number, colIndex: number) => {
+    const square = { x: rowIndex, y: colIndex };
+    return {
+      opacity: getSquareOpacity(square, pieceActions),
+      cursor: getCursorStyle(square, teamActions, pieceActions),
+    } as React.CSSProperties;
+  };
+
   return (
     <div className="chessboard">
       {gameboard.board.map((row, rowIndex) =>
@@ -56,7 +65,7 @@ export default function Gameboard() {
           <button
             type="button"
             onClick={() => handleSquarePress(piece, { x: rowIndex, y: colIndex })}
-            style={{ opacity: getSquareOpacity({ x: rowIndex, y: colIndex }, pieceActions) }}
+            style={buttonStyle(rowIndex, colIndex)}
             key={parseInt(rowIndex.toString() + colIndex.toString())}
             className="square"
           ></button>
