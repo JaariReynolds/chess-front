@@ -121,7 +121,6 @@ export default function Pieces() {
         }
       });
 
-      console.log(newStaticPieces);
       setUnmovedPieces(newStaticPieces);
       setMovedPieces([]);
       setPendingFrom([]);
