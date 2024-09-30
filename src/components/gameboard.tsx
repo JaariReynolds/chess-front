@@ -3,9 +3,9 @@ import "../components/gameboard.css";
 import { Piece, Square } from "../types/gameboard";
 import getActionsForPiece from "../functions/getActionsForPiece";
 import { arePiecesEqual, areSquaresEqual } from "../functions/objectEquality";
-import getSquareOpacity from "../functions/getSquareOpacity";
 import isPawnPromoteAction from "../functions/isPawnPromoteAction";
 import getCursorStyle from "../functions/getCursorStyle";
+import getTileColour from "../functions/getTileColour";
 
 export default function Gameboard() {
   const {
@@ -53,7 +53,7 @@ export default function Gameboard() {
   const buttonStyle = (rowIndex: number, colIndex: number) => {
     const square = { x: rowIndex, y: colIndex };
     return {
-      opacity: getSquareOpacity(square, pieceActions),
+      backgroundColor: getTileColour(square, pieceActions),
       cursor: getCursorStyle(square, teamActions, pieceActions),
     } as React.CSSProperties;
   };
@@ -67,7 +67,11 @@ export default function Gameboard() {
             onClick={() => handleSquarePress(piece, { x: rowIndex, y: colIndex })}
             style={buttonStyle(rowIndex, colIndex)}
             key={parseInt(rowIndex.toString() + colIndex.toString())}
-            className="square"
+            className={`square ${
+              getCursorStyle({ x: rowIndex, y: colIndex }, teamActions, pieceActions) == "pointer"
+                ? "clickable-tile"
+                : ""
+            }`}
           ></button>
         ))
       )}
