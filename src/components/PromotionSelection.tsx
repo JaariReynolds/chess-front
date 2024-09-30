@@ -33,13 +33,14 @@ export default function PromotionSelection() {
     setPromotionSelectionVisible(false);
   }
 
+  function closePromotionSelection() {
+    setPromotionSelectionVisible(false);
+  }
+
   const currentTeamColour = gameboard.currentTeamColour.toString();
 
   return (
-    <div
-      className="transparent-gameboard-container"
-      onClick={() => setPromotionSelectionVisible(false)}
-    >
+    <div className="transparent-gameboard-container" onClick={closePromotionSelection}>
       <div className="promotion-selection-container">
         <button
           title="bishop"
@@ -77,7 +78,7 @@ export default function PromotionSelection() {
           title="cancel"
           className="promote-button"
           type="button"
-          onClick={() => setPromotionSelectionVisible(false)}
+          onClick={closePromotionSelection}
         >
           <FontAwesomeIcon icon={faXmark} size="2x" color={currentTeamColour} />
         </button>

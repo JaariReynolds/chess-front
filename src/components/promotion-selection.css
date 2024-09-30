@@ -3,6 +3,7 @@
   background-color: rgba(17, 17, 26, 0.4);
   height: 100%;
   width: 100%;
+  z-index: 1;
 }
 
 .promotion-selection-container {
@@ -24,4 +25,9 @@
   height: 5rem;
   width: 5rem;
   border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.promote-button:hover {
+  border: 2px solid whitesmoke;
 }
