@@ -6,6 +6,7 @@ import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 interface PerformActionEffectProps {
   url: string;
   currentGameboard: Gameboard;
+  setUserActionPerformed: React.Dispatch<React.SetStateAction<boolean>>;
   selectedAction: Action | null;
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
@@ -18,6 +19,7 @@ interface PerformActionEffectProps {
 export default function performActionEffect({
   url,
   currentGameboard,
+  setUserActionPerformed,
   selectedAction,
   setSelectedAction,
   setPieceActions,
@@ -60,6 +62,7 @@ export default function performActionEffect({
         setError(error as Error);
       } finally {
         setLoading(false);
+        setUserActionPerformed(true);
       }
     }
 
