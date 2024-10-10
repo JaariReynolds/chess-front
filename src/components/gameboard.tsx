@@ -64,6 +64,7 @@ export default function Gameboard() {
         row.map((piece, colIndex) => (
           <button
             type="button"
+            disabled={gameboard.currentTeamColour == "Black"}
             onClick={() => handleSquarePress(piece, { x: rowIndex, y: colIndex })}
             style={buttonStyle(rowIndex, colIndex)}
             key={parseInt(rowIndex.toString() + colIndex.toString())}
