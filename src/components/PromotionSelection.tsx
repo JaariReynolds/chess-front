@@ -9,16 +9,17 @@ import {
   faChessRook,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { usePromotionContext } from "../contexts/promotionContext";
 
 export default function PromotionSelection() {
+  const { gameboard, setSelectedAction } = useChessContext();
+
   const {
-    gameboard,
     promotionActionBase,
     promotionSelectionVisible,
-    setPromotionActionBase,
     setPromotionSelectionVisible,
-    setSelectedAction,
-  } = useChessContext();
+    setPromotionActionBase,
+  } = usePromotionContext();
 
   if (!promotionSelectionVisible) return null;
 

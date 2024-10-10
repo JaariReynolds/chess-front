@@ -6,17 +6,13 @@ import { arePiecesEqual, areSquaresEqual } from "../functions/objectEquality";
 import isPawnPromoteAction from "../functions/isPawnPromoteAction";
 import getCursorStyle from "../functions/getCursorStyle";
 import getTileColour from "../functions/getTileColour";
+import { usePromotionContext } from "../contexts/promotionContext";
 
 export default function Gameboard() {
-  const {
-    gameboard,
-    teamActions,
-    setSelectedAction,
-    pieceActions,
-    setPieceActions,
-    setPromotionActionBase,
-    setPromotionSelectionVisible,
-  } = useChessContext();
+  const { gameboard, teamActions, setSelectedAction, pieceActions, setPieceActions } =
+    useChessContext();
+
+  const { setPromotionActionBase, setPromotionSelectionVisible } = usePromotionContext();
 
   function handleSquarePress(piece: Piece | null, square: Square) {
     const actionableSquare = pieceActions?.actions.find((action) =>

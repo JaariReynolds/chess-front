@@ -15,10 +15,6 @@ interface ChessContext {
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   pieceActions: AvailablePieceActions | null;
   setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
-  promotionActionBase: Action | null;
-  setPromotionActionBase: React.Dispatch<React.SetStateAction<Action | null>>;
-  promotionSelectionVisible: boolean;
-  setPromotionSelectionVisible: React.Dispatch<React.SetStateAction<boolean>>;
   resetTrigger: boolean;
   setResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   error: Error | null;
@@ -46,9 +42,6 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [pieceActions, setPieceActions] = useState<AvailablePieceActions | null>(null);
 
   const [userActionPerformed, setUserActionPerformed] = useState<boolean>(false);
-
-  const [promotionActionBase, setPromotionActionBase] = useState<Action | null>(null);
-  const [promotionSelectionVisible, setPromotionSelectionVisible] = useState<boolean>(false);
 
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -92,8 +85,6 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   useEffect(() => {
     setSelectedAction(null);
     setPieceActions(null);
-    setPromotionActionBase(null);
-    setPromotionSelectionVisible(false);
   }, [resetTrigger]);
 
   return (
@@ -105,10 +96,6 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setSelectedAction,
         pieceActions,
         setPieceActions,
-        promotionActionBase,
-        setPromotionActionBase,
-        promotionSelectionVisible,
-        setPromotionSelectionVisible,
         resetTrigger,
         setResetTrigger,
         error,
