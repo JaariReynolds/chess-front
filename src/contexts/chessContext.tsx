@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
-import initializeGameEffect from "../functions/initializeGameEffect";
-import performActionEffect from "../functions/performActionEffect";
+import initializeGameEffect from "../hooks/initializeGameEffect";
+import performActionEffect from "../hooks/performActionEffect";
+import fetchBotActionEffect from "../hooks/fetchBotActionEffect";
 
 interface ChessContextProviderProps {
   children: React.ReactNode;
@@ -44,6 +45,8 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
   const [pieceActions, setPieceActions] = useState<AvailablePieceActions | null>(null);
 
+  const [userActionPerformed, setUserActionPerformed] = useState<boolean>(false);
+
   const [promotionActionBase, setPromotionActionBase] = useState<Action | null>(null);
   const [promotionSelectionVisible, setPromotionSelectionVisible] = useState<boolean>(false);
 
@@ -63,7 +66,21 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   performActionEffect({
     url: "https://localhost:7179/api/chess/perform",
     currentGameboard: gameboard,
+    setUserActionPerformed,
     selectedAction,
+    setSelectedAction,
+    setPieceActions,
+    setGameboard,
+    setTeamActions,
+    setError,
+    setLoading,
+  });
+
+  fetchBotActionEffect({
+    url: "https://localhost:7179/api/chess/botAction",
+    currentGameboard: gameboard,
+    userActionPerformed,
+    setUserActionPerformed,
     setSelectedAction,
     setPieceActions,
     setGameboard,
