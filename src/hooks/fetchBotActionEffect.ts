@@ -50,7 +50,6 @@ export default function fetchBotActionEffect({
 
         const { gameboard, actions }: DataTransferObject = await response.json();
 
-        console.log(gameboard.previousActions[gameboard.previousActions.length - 1]);
         const audioElement = isCaptureActionType(
           gameboard.previousActions[gameboard.previousActions.length - 1]
         )
