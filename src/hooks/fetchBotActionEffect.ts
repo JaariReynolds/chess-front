@@ -2,9 +2,7 @@
 import { useEffect } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import { DataTransferObject } from "../types/dataTransferObjects";
-import isCaptureActionType from "../functions/isCaptureActionType";
-const moveAudio = new Audio("/src/sounds/move.wav");
-const captureAudio = new Audio("/src/sounds/capture.wav");
+import { playActionAudio } from "../functions/playAudio";
 
 interface FetchBotActionEffectProps {
   url: string;
@@ -50,12 +48,7 @@ export default function fetchBotActionEffect({
 
         const { gameboard, actions }: DataTransferObject = await response.json();
 
-        const audioElement = isCaptureActionType(
-          gameboard.previousActions[gameboard.previousActions.length - 1]
-        )
-          ? captureAudio
-          : moveAudio;
-        audioElement.play();
+        playActionAudio(gameboard.previousActions[gameboard.previousActions.length - 1]);
 
         setGameboard(gameboard);
         setSelectedAction(null);
