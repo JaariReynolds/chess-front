@@ -11,6 +11,7 @@ interface ChessContextProviderProps {
 interface ChessContext {
   gameboard: Gameboard;
   teamActions: AvailablePieceActions[];
+  userActionPerformed: boolean;
   selectedAction: Action | null;
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   pieceActions: AvailablePieceActions | null;
@@ -92,6 +93,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
       value={{
         gameboard,
         teamActions,
+        userActionPerformed,
         selectedAction,
         setSelectedAction,
         pieceActions,
