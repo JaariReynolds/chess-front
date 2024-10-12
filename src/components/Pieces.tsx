@@ -8,10 +8,7 @@ import MovingPiece from "./MovingPiece";
 import isPawnPromoteAction from "../functions/isPawnPromoteAction";
 import getPromotionPieceName from "../functions/getPromotionPieceName";
 import getPiecevalueFromName from "../functions/getPieceValueFromName";
-import isCaptureActionType from "../functions/isCaptureActionType";
-
-const moveAudio = new Audio("/src/sounds/move.wav");
-const captureAudio = new Audio("/src/sounds/capture.wav");
+import { playMoveAudio, playActionAudio } from "../functions/playAudio";
 
 export interface MovedPiece {
   piece: Piece;
@@ -19,7 +16,7 @@ export interface MovedPiece {
 }
 
 export default function Pieces() {
-  const { gameboard, selectedAction, resetTrigger } = useChessContext();
+  const { gameboard, selectedAction, resetTrigger, userActionPerformed } = useChessContext();
   const [unmovedPieces, setUnmovedPieces] = useState<(Piece | null)[][]>([]);
 
   const [movedPieces, setMovedPieces] = useState<(MovedPiece | null)[]>([]);
@@ -31,14 +28,14 @@ export default function Pieces() {
 
   useEffect(() => {
     setUnmovedPieces([]);
-    moveAudio.play();
+    playMoveAudio();
   }, [resetTrigger]);
 
+  // when an action is selected,
   useEffect(() => {
-    if (!selectedAction) return;
+    if (selectedAction == null) return;
 
-    const audioElement = isCaptureActionType(selectedAction) ? captureAudio : moveAudio;
-    audioElement.play();
+    playActionAudio(selectedAction);
 
     if (selectedAction && isPawnPromoteAction(selectedAction)) {
       const newName = getPromotionPieceName(selectedAction.actionType)!;
@@ -52,6 +49,29 @@ export default function Pieces() {
       setPendingTo((prev) => [...prev, { ...basePiece, square: selectedAction.square }]);
     }
   }, [selectedAction]);
+
+  useEffect(() => {
+    if (
+      gameboard.previousActions.length > 0 &&
+      userActionPerformed == false &&
+      isPawnPromoteAction(gameboard.previousActions[gameboard.previousActions.length - 1])
+    ) {
+      const previousBotPromoteAction =
+        gameboard.previousActions[gameboard.previousActions.length - 1];
+
+      const newName = getPromotionPieceName(previousBotPromoteAction.actionType)!;
+
+      const basePiece = {
+        ...previousBotPromoteAction.piece,
+        name: newName,
+        pieceValue: getPiecevalueFromName(newName),
+        hasMoved: true,
+      } as Piece;
+
+      setPendingFrom((prev) => [...prev, basePiece]);
+      setPendingTo((prev) => [...prev, { ...basePiece, square: previousBotPromoteAction.square }]);
+    }
+  }, [userActionPerformed]);
 
   useEffect(() => {
     const tempPendingFrom: Piece[] = [...pendingFrom];
@@ -104,7 +124,7 @@ export default function Pieces() {
 
     setMovedPieces(movedPieces);
     setUnmovedPieces(existingPieces);
-  }, [gameboard.board]);
+  }, [gameboard.board, pendingFrom, pendingTo]);
 
   useEffect(() => {
     if (movedPieces.length == 0) return;
