@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prefer-const */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
@@ -32,14 +34,19 @@ export default function fetchBotActionEffect({
   useEffect(() => {
     if (userActionPerformed == false) return;
 
+    const abortController = new AbortController();
+    let timeoutId: number;
+
     async function postData() {
       try {
+        setLoading(true);
         const response = await fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(currentGameboard),
+          body: JSON.stringify({ gameboard: currentGameboard }),
+          signal: abortController.signal,
         });
 
         if (!response.ok) {
@@ -54,16 +61,26 @@ export default function fetchBotActionEffect({
         setSelectedAction(null);
         setPieceActions(null);
         setTeamActions(actions);
+        setUserActionPerformed(false);
       } catch (error) {
-        setError(error as Error);
+        const errorObject = error as Error;
+        if (errorObject.name === "AbortError") {
+          console.error("Fetch aborted");
+        } else {
+          setError(errorObject);
+        }
       } finally {
         setLoading(false);
-        setUserActionPerformed(false);
       }
     }
 
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       postData();
-    }, 500); // hardcoded rn to be double the length of time of an 'action transition'
+    }, 500); // hardcoded rn to be double the length of time of an 'action transition' (not final)
+
+    return () => {
+      clearTimeout(timeoutId);
+      abortController.abort();
+    };
   }, [userActionPerformed]);
 }

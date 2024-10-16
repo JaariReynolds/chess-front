@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from "react";
 import { DataTransferObject, GameboardActionRequestObject } from "../types/dataTransferObjects";
@@ -29,16 +30,18 @@ export default function performActionEffect({
   setLoading,
 }: PerformActionEffectProps) {
   useEffect(() => {
-    if (selectedAction == null) {
-      return;
-    }
+    if (selectedAction == null) return;
+
+    const abortController = new AbortController();
+
+    const requestBody = {
+      gameboard: currentGameboard,
+      action: selectedAction,
+    } as GameboardActionRequestObject;
 
     async function postData() {
       try {
-        const requestBody = {
-          gameboard: currentGameboard,
-          action: selectedAction,
-        } as GameboardActionRequestObject;
+        setLoading(true);
 
         const response = await fetch(url, {
           method: "POST",
@@ -46,6 +49,7 @@ export default function performActionEffect({
             "Content-Type": "application/json",
           },
           body: JSON.stringify(requestBody),
+          signal: abortController.signal,
         });
 
         if (!response.ok) {
@@ -55,17 +59,27 @@ export default function performActionEffect({
         const { gameboard, actions }: DataTransferObject = await response.json();
         setGameboard(gameboard);
         setTeamActions(actions);
+        setUserActionPerformed(true);
+
         // clear the actions from the previous move
         setSelectedAction(null);
         setPieceActions(null);
       } catch (error) {
-        setError(error as Error);
+        const errorObject = error as Error;
+        if (errorObject.name === "AbortError") {
+          console.error("Fetch aborted");
+        } else {
+          setError(errorObject);
+        }
       } finally {
         setLoading(false);
-        setUserActionPerformed(true);
       }
     }
 
     postData();
+
+    return () => {
+      abortController.abort();
+    };
   }, [selectedAction]);
 }

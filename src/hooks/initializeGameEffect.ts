@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from "react";
 import { AvailablePieceActions, Gameboard } from "../types/gameboard";
@@ -21,15 +22,21 @@ export default function initializeGameEffect({
   resetTrigger,
 }: InitializeGameEffectProps) {
   useEffect(() => {
+    const abortController = new AbortController();
+
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
+        setLoading(true);
+        const response = await fetch(url, { signal: abortController.signal });
+
         if (!response.ok) {
           throw new Error(`API request failed with status: ${response.status}`);
         }
+
         const { gameboard, actions }: DataTransferObject = await response.json();
-        setGameboard(gameboard);
+
         setTeamActions(actions);
+        setGameboard(gameboard);
       } catch (error) {
         setError(error as Error);
       } finally {
@@ -38,5 +45,9 @@ export default function initializeGameEffect({
     };
 
     fetchData();
+
+    return () => {
+      abortController.abort();
+    };
   }, [resetTrigger]);
 }
