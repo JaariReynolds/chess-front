@@ -34,6 +34,10 @@ export default function fetchBotActionEffect({
   useEffect(() => {
     if (userActionPerformed == false) return;
 
+    if (currentGameboard.checkmateTeamColour != "None") {
+      return;
+    }
+
     const abortController = new AbortController();
     let timeoutId: number;
 
