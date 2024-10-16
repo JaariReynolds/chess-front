@@ -50,6 +50,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
 
   initializeGameEffect({
     url: "https://localhost:7179/api/chess/initialState",
+    setUserActionPerformed,
     setGameboard,
     setTeamActions,
     setError,

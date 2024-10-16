@@ -6,6 +6,7 @@ import { DataTransferObject } from "../types/dataTransferObjects";
 
 interface InitializeGameEffectProps {
   url: string;
+  setUserActionPerformed: React.Dispatch<React.SetStateAction<boolean>>;
   setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
   setTeamActions: React.Dispatch<React.SetStateAction<AvailablePieceActions[]>>;
   setError: React.Dispatch<React.SetStateAction<Error | null>>;
@@ -15,6 +16,7 @@ interface InitializeGameEffectProps {
 
 export default function initializeGameEffect({
   url,
+  setUserActionPerformed,
   setGameboard,
   setTeamActions,
   setError,
@@ -37,6 +39,7 @@ export default function initializeGameEffect({
 
         setTeamActions(actions);
         setGameboard(gameboard);
+        setUserActionPerformed(false);
       } catch (error) {
         setError(error as Error);
       } finally {
