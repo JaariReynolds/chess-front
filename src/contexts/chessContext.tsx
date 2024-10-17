@@ -49,7 +49,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [resetTrigger, setResetTrigger] = useState<boolean>(false);
 
   initializeGameEffect({
-    url: "https://localhost:7179/api/chess/initialState",
+    url: "http://localhost:7179/api/chess/initialState",
     setUserActionPerformed,
     setGameboard,
     setTeamActions,
@@ -59,7 +59,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   });
 
   performActionEffect({
-    url: "https://localhost:7179/api/chess/perform",
+    url: "http://localhost:7179/api/chess/perform",
     currentGameboard: gameboard,
     setUserActionPerformed,
     selectedAction,
@@ -72,7 +72,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   });
 
   fetchBotActionEffect({
-    url: "https://localhost:7179/api/chess/botAction",
+    url: "http://localhost:7179/api/chess/botAction",
     currentGameboard: gameboard,
     userActionPerformed,
     setUserActionPerformed,
