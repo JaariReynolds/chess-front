@@ -5,13 +5,13 @@ FROM node:16
 WORKDIR /app
 
 # Copy package.json and package-lock.json (if available) to install dependencies first
-COPY package*.json ./
+COPY ChessFront/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of your application code
-COPY . .
+COPY ChessFront/. .
 
 # Build the application
 RUN npm run build
