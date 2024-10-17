@@ -1,6 +1,6 @@
 import "./App.css";
 import CurrentTeamIndicator from "./components/CurrentTeamIndicator";
-import Gameboard from "./components/Gameboard";
+import Gameboard from "./components/gameboard";
 import Pieces from "./components/Pieces";
 import PromotionSelection from "./components/PromotionSelection";
 import Sidebar from "./components/Sidebar";
