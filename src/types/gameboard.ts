@@ -15,6 +15,7 @@ export interface Piece {
 
 export interface Action {
   piece: Piece;
+  algebraicNotation: string;
   square: Square;
   actionType: ActionType;
   promoteCapturePoints: number;

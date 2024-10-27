@@ -10,7 +10,7 @@ export default function ActionHistory() {
       <p>History</p>
       <div className="grid-container">
         {gameboard.previousActions.map((action, index) => {
-          return <div key={index}>{actionToString(action)}</div>;
+          return <div key={index}>{action.algebraicNotation}</div>;
         })}
       </div>
     </div>
