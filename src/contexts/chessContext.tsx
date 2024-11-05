@@ -28,6 +28,7 @@ const defaultGameboard: Gameboard = {
     .map(() => Array(8).fill(null)), // Empty 8x8 board
   currentTeamColour: "White",
   previousActions: [],
+  lastPerformedAction: null,
   whitePoints: 0,
   blackPoints: 0,
   checkedTeamColour: "None",
