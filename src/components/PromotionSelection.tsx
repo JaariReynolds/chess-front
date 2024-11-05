@@ -10,6 +10,7 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { usePromotionContext } from "../contexts/promotionContext";
+import updateAlgebraicPromotionPiece from "../functions/updateAlgebraicPromotionPiece";
 
 export default function PromotionSelection() {
   const { gameboard, setSelectedAction } = useChessContext();
@@ -28,8 +29,16 @@ export default function PromotionSelection() {
       setPromotionSelectionVisible(false);
       return;
     }
+    const selectedPromotionAction = {
+      ...promotionActionBase,
+      actionType: selectedPromotion,
+      algebraicNotation: updateAlgebraicPromotionPiece(
+        selectedPromotion,
+        promotionActionBase.algebraicNotation
+      ),
+    };
 
-    setSelectedAction({ ...promotionActionBase, actionType: selectedPromotion });
+    setSelectedAction(selectedPromotionAction);
     setPromotionActionBase(null);
     setPromotionSelectionVisible(false);
   }
