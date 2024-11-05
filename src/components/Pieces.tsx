@@ -35,14 +35,15 @@ export default function Pieces() {
   useEffect(() => {
     if (selectedAction == null) return;
 
-    playActionAudio(selectedAction);
+    playActionAudio(selectedAction.algebraicNotation);
 
-    if (selectedAction && isPawnPromoteAction(selectedAction)) {
-      const newName = getPromotionPieceName(selectedAction.actionType)!;
+    if (selectedAction && isPawnPromoteAction(selectedAction.algebraicNotation)) {
+      const newName = getPromotionPieceName(selectedAction.algebraicNotation)!;
       const basePiece = {
         ...selectedAction.piece,
         name: newName,
         pieceValue: getPiecevalueFromName(newName),
+        hasMoved: true,
       } as Piece;
 
       setPendingFrom((prev) => [...prev, basePiece]);
@@ -51,16 +52,16 @@ export default function Pieces() {
   }, [selectedAction]);
 
   useEffect(() => {
+    // runs when a bot performs a pawn promotion
     if (
       gameboard.previousActions.length > 0 &&
       userActionPerformed == false &&
       isPawnPromoteAction(gameboard.previousActions[gameboard.previousActions.length - 1])
     ) {
-      const previousBotPromoteAction =
-        gameboard.previousActions[gameboard.previousActions.length - 1];
+      const previousBotPromoteAction = gameboard.lastPerformedAction;
+      if (!previousBotPromoteAction) return;
 
-      const newName = getPromotionPieceName(previousBotPromoteAction.actionType)!;
-
+      const newName = getPromotionPieceName(previousBotPromoteAction.algebraicNotation)!;
       const basePiece = {
         ...previousBotPromoteAction.piece,
         name: newName,
