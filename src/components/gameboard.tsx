@@ -20,7 +20,7 @@ export default function Gameboard() {
     );
 
     // if actionableSquare was a promote action, show component for user to select promotion
-    if (actionableSquare && isPawnPromoteAction(actionableSquare)) {
+    if (actionableSquare && isPawnPromoteAction(actionableSquare.algebraicNotation)) {
       setPromotionActionBase(actionableSquare);
       setPromotionSelectionVisible(true);
       return;

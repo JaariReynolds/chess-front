@@ -1,5 +1,4 @@
 import { useChessContext } from "../contexts/chessContext";
-import { actionToString } from "../functions/objectsToString";
 import "../components/action-history.css";
 
 export default function ActionHistory() {
@@ -10,7 +9,7 @@ export default function ActionHistory() {
       <p>History</p>
       <div className="grid-container">
         {gameboard.previousActions.map((action, index) => {
-          return <div key={index}>{action.algebraicNotation}</div>;
+          return <div key={index}>{action}</div>;
         })}
       </div>
     </div>
