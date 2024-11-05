@@ -24,7 +24,8 @@ export interface Action {
 export interface Gameboard {
   board: Piece[][];
   currentTeamColour: TeamColour;
-  previousActions: Action[];
+  previousActions: string[];
+  lastPerformedAction: Action | null;
   whitePoints: number;
   blackPoints: number;
   checkedTeamColour: CheckStatus;
