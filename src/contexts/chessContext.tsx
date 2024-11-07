@@ -31,8 +31,8 @@ const defaultGameboard: Gameboard = {
   lastPerformedAction: null,
   whitePoints: 0,
   blackPoints: 0,
-  checkedTeamColour: "None",
-  checkmateTeamColour: "None",
+  checkedTeamColour: null,
+  checkmateTeamColour: null,
 };
 
 const ChessContext = createContext<ChessContext | null>(null);

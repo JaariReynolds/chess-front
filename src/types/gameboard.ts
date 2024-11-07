@@ -1,4 +1,4 @@
-import { ActionType, CheckStatus, PieceName, TeamColour } from "./literals";
+import { ActionType, PieceName, TeamColour } from "./literals";
 
 export interface Square {
   x: number;
@@ -28,8 +28,8 @@ export interface Gameboard {
   lastPerformedAction: Action | null;
   whitePoints: number;
   blackPoints: number;
-  checkedTeamColour: CheckStatus;
-  checkmateTeamColour: CheckStatus;
+  checkedTeamColour: TeamColour | null;
+  checkmateTeamColour: TeamColour | null;
 }
 
 export interface AvailablePieceActions {

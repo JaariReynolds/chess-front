@@ -8,9 +8,9 @@ export default function CheckStatus() {
 
   function getCheckStatusMessage(): string {
     let message = "";
-    if (checkmateTeam != "None") {
+    if (checkmateTeam != null) {
       message = "mate: " + checkmateTeam;
-    } else if (checkedTeam != "None") {
+    } else if (checkedTeam != null) {
       message = "checked: " + checkedTeam;
     }
 
