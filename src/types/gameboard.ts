@@ -28,8 +28,10 @@ export interface Gameboard {
   lastPerformedAction: Action | null;
   whitePoints: number;
   blackPoints: number;
-  checkedTeamColour: TeamColour | null;
+  checkTeamColour: TeamColour | null;
   checkmateTeamColour: TeamColour | null;
+  isStalemate: boolean;
+  isGameOver: boolean;
 }
 
 export interface AvailablePieceActions {
