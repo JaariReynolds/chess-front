@@ -34,7 +34,7 @@ export default function fetchBotActionEffect({
   useEffect(() => {
     if (userActionPerformed == false) return;
 
-    if (currentGameboard.checkmateTeamColour != null) {
+    if (currentGameboard.isGameOver) {
       return;
     }
 
