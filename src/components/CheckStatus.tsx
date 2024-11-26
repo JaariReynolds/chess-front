@@ -8,7 +8,7 @@ export default function CheckStatus() {
 
   function getCheckStatusMessage(): string {
     if (checkmateTeam != null) {
-      return "mate: " + checkmateTeam;
+      return "mate";
     } else if (gameboard.isStalemate) {
       return "stalemate";
     } else if (checkTeam != null) {
@@ -16,5 +16,11 @@ export default function CheckStatus() {
     } else return "";
   }
 
-  return <div style={{ border: "1px solid black" }}>{getCheckStatusMessage()}</div>;
+  return (
+    <div
+      style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "2rem" }}
+    >
+      {getCheckStatusMessage()}
+    </div>
+  );
 }
