@@ -27,3 +27,19 @@
 .square:nth-child(16n + 15) {
   background-color: rgba(171, 140, 93, 1);
 }
+
+.square:nth-child(1) {
+  border-top-left-radius: 0.5rem;
+}
+
+.square:nth-child(8) {
+  border-top-right-radius: 0.5rem;
+}
+
+.square:nth-child(57) {
+  border-bottom-left-radius: 0.5rem;
+}
+
+.square:nth-child(64) {
+  border-bottom-right-radius: 0.5rem;
+}
