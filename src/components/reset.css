@@ -3,7 +3,16 @@
   cursor: pointer;
 }
 
+.reset-container:hover {
+  background-color: #555;
+  transition: background-color 0.15s ease-in-out;
+}
+
 .reset-container:hover .reset-icon {
+  animation: rotate-bounce 1.2s ease-in-out infinite;
+}
+
+.game-over .reset-icon {
   animation: rotate-bounce 1.2s ease-in-out infinite;
 }
 

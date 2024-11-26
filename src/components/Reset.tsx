@@ -4,11 +4,11 @@ import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import "./reset.css";
 
 export default function Reset() {
-  const { setResetTrigger } = useChessContext();
+  const { setResetTrigger, gameboard } = useChessContext();
 
   return (
     <button
-      className="reset-container"
+      className={gameboard.isGameOver ? "reset-container game-over" : "reset-container"}
       title="reset"
       onClick={() => setResetTrigger((prev) => !prev)}
     >
