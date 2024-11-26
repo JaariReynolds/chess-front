@@ -1,16 +1,36 @@
 .action-history-container {
-  text-align: center;
-  border: 1px solid black;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-gutter: stable both-edges;
-  scroll-margin-top: auto;
-  /* display: flex; */
-  /* flex-direction: column-reverse; */
-  /* height: max-content; */
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  font-size: 1.2rem;
+  overflow-y: auto;
+  grid-template-columns: 0.25fr 1fr 1fr;
+  scroll-behavior: smooth;
+  text-align: left;
+}
+
+.grid-container > span {
+  padding: 0.25rem 0.5rem;
+}
+
+.grid-container > span:nth-child(3n + 2),
+.grid-container > span:nth-child(3n + 3) {
+  padding-left: 2.5rem;
+}
+
+.grid-container > span:nth-child(6n + 1),
+.grid-container > span:nth-child(6n + 2),
+.grid-container > span:nth-child(6n + 3) {
+  background-color: #3d3b3c;
+}
+
+.grid-container > span:nth-child(6n + 4),
+.grid-container > span:nth-child(6n + 5),
+.grid-container > span:nth-child(6n + 6) {
+  background-color: #7f7979;
 }
