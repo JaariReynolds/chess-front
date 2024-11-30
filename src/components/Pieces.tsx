@@ -150,16 +150,7 @@ export default function Pieces() {
   }, [movedPieces, unmovedPieces]);
 
   return (
-    <div
-      style={{
-        width: "1000px",
-        height: "1000px",
-        position: "absolute",
-        left: 0,
-        top: 0,
-        pointerEvents: "none",
-      }}
-    >
+    <div className="pieces-container">
       {unmovedPieces.map((row) =>
         row.map((piece) => {
           return (
