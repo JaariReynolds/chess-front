@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChessContext } from "../contexts/chessContext";
 import { Piece, Square } from "../types/gameboard";
 import { arePiecesEqual } from "../functions/objectEquality";
@@ -25,6 +25,25 @@ export default function Pieces() {
 
   const [pendingFrom, setPendingFrom] = useState<Piece[]>([]);
   const [pendingTo, setPendingTo] = useState<Piece[]>([]);
+
+  const [pieceWidth, setPieceWidth] = useState<number>(0);
+  const pieceContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (pieceContainerRef.current) {
+        setPieceWidth(pieceContainerRef.current.offsetWidth / 8);
+      }
+    };
+
+    updateWidth();
+
+    window.addEventListener("resize", updateWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
   useEffect(() => {
     setUnmovedPieces([]);
@@ -150,7 +169,7 @@ export default function Pieces() {
   }, [movedPieces, unmovedPieces]);
 
   return (
-    <div className="pieces-container">
+    <div ref={pieceContainerRef} className="pieces-container">
       {unmovedPieces.map((row) =>
         row.map((piece) => {
           return (
@@ -159,8 +178,10 @@ export default function Pieces() {
                 key={`${piece.name}-${piece.square.x}-${piece.square.y}`}
                 className="piece"
                 style={{
-                  transform: `translate(${piece.square.y * (1000 / 8)}px, ${
-                    piece.square.x * (1000 / 8)
+                  width: `${pieceWidth}px`,
+                  aspectRatio: 1,
+                  transform: `translate(${piece.square.y * pieceWidth}px, ${
+                    piece.square.x * pieceWidth
                   }px)`,
                 }}
               >
@@ -177,6 +198,7 @@ export default function Pieces() {
             <MovingPiece
               key={`${movedPiece.piece.name}-${movedPiece.newSquare.x}-${movedPiece.newSquare.y}`}
               movedPiece={movedPiece}
+              pieceWidth={pieceWidth}
             />
           )
         );
