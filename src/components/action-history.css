@@ -1,5 +1,4 @@
 .action-history-container {
-  border-radius: 0.5rem;
   overflow: hidden;
   display: flex;
   flex-direction: column-reverse;
@@ -26,7 +25,7 @@
 .grid-container > span:nth-child(6n + 1),
 .grid-container > span:nth-child(6n + 2),
 .grid-container > span:nth-child(6n + 3) {
-  background-color: #3d3b3c;
+  background-color: #554f52;
 }
 
 .grid-container > span:nth-child(6n + 4),

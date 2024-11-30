@@ -1,15 +1,18 @@
 .sidebar-container {
   display: grid;
-  grid-template-rows: 0.3fr 0.5fr 2.5fr;
+  grid-template-rows: 6rem 0.5fr 2.5fr;
   row-gap: 1rem;
-  min-width: 17rem;
+  min-width: 18rem;
   overflow: hidden;
+  border-radius: 0.5rem;
+  background-color: #3d3b3c;
 }
 
 @media (max-width: 800px), (max-height: 500px) {
   .sidebar-container {
     margin: auto;
-    height: 500px;
+    height: 700px;
     width: 25rem;
+    grid-template-rows: 5rem 0.5fr 2.5fr;
   }
 }

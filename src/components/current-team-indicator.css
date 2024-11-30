@@ -1,6 +1,6 @@
 .current-team-indicator-container {
   grid-column: 1 / -1;
-  margin: 1rem 0;
+  margin: auto;
 }
 
 .team-box-container {
