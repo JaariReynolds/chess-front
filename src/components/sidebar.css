@@ -3,4 +3,13 @@
   grid-template-rows: 0.3fr 0.5fr 2.5fr;
   row-gap: 1rem;
   min-width: 17rem;
+  overflow: hidden;
+}
+
+@media (max-width: 800px), (max-height: 500px) {
+  .sidebar-container {
+    margin: auto;
+    height: 500px;
+    width: 25rem;
+  }
 }
