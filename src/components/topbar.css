@@ -1,0 +1,19 @@
+.topbar-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+}
+
+.topbar-container > * {
+  /* border: 2px solid black; */
+  border-radius: 0.5rem;
+  background-color: #3d3b3c;
+}
+
+@media (max-width: 600px) {
+  .topbar-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 1rem;
+  }
+}

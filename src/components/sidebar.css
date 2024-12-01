@@ -1,5 +1,6 @@
 .sidebar-container {
   display: grid;
+  grid-row: 2;
   grid-template-rows: 6rem 1fr;
   row-gap: 1rem;
   min-width: 18rem;
@@ -11,8 +12,9 @@
   border-radius: 0.5rem;
 }
 
-@media (max-width: 800px), (max-height: 500px) {
+@media (max-width: 900px), (max-height: 500px) {
   .sidebar-container {
+    grid-row: 3;
     margin: auto;
     height: 700px;
     width: 25rem;
