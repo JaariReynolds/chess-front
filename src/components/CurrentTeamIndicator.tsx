@@ -12,11 +12,9 @@ export default function CurrentTeamIndicator() {
 
   return (
     <div className="current-team-indicator-container">
-      <div className="team-box-container">
-        <div className="indicator" style={{ transform: `translate(${translateAmount}%)` }}></div>
-        <div>White</div>
-        <div>Black</div>
-      </div>
+      <div className="team-text">White</div>
+      <div className="team-text">Black</div>
+      <div className="indicator" style={{ transform: `translate(${translateAmount}%)` }}></div>
     </div>
   );
 }
