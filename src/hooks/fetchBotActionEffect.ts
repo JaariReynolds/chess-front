@@ -40,7 +40,6 @@ export default function fetchBotActionEffect({
     }
 
     const abortController = new AbortController();
-    let timeoutId: number;
 
     async function postData() {
       try {
@@ -76,8 +75,6 @@ export default function fetchBotActionEffect({
         setPieceActions(null);
         setTeamActions(actions);
         setUserActionPerformed(false);
-
-        console.log("elapsed:", Date.now() - start);
       } catch (error) {
         const errorObject = error as Error;
         if (errorObject.name === "AbortError") {
@@ -93,7 +90,6 @@ export default function fetchBotActionEffect({
     postData();
 
     return () => {
-      clearTimeout(timeoutId);
       abortController.abort();
     };
   }, [userActionPerformed]);
