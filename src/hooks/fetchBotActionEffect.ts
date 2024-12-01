@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import { DataTransferObject } from "../types/dataTransferObjects";
 import { playActionAudio } from "../functions/playAudio";
+import { TRANSITION_LENGTH_MILLISECONDS } from "../constants";
 
 interface FetchBotActionEffectProps {
   url: string;
@@ -80,7 +81,7 @@ export default function fetchBotActionEffect({
 
     timeoutId = setTimeout(() => {
       postData();
-    }, 500); // hardcoded rn to be double the length of time of an 'action transition' (not final)
+    }, TRANSITION_LENGTH_MILLISECONDS * 2);
 
     return () => {
       clearTimeout(timeoutId);

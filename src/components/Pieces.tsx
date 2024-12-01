@@ -9,6 +9,7 @@ import isPawnPromoteAction from "../functions/isPawnPromoteAction";
 import getPromotionPieceName from "../functions/getPromotionPieceName";
 import getPiecevalueFromName from "../functions/getPieceValueFromName";
 import { playMoveAudio, playActionAudio } from "../functions/playAudio";
+import { PIECE_SIZE_MULTIPLIER, TRANSITION_LENGTH_MILLISECONDS } from "../constants";
 
 export interface MovedPiece {
   piece: Piece;
@@ -165,7 +166,7 @@ export default function Pieces() {
       setMovedPieces([]);
       setPendingFrom([]);
       setPendingTo([]);
-    }, 250);
+    }, TRANSITION_LENGTH_MILLISECONDS);
   }, [movedPieces, unmovedPieces]);
 
   return (
@@ -179,7 +180,7 @@ export default function Pieces() {
                 className="piece"
                 style={{
                   width: `${pieceWidth}px`,
-                  fontSize: `${pieceWidth * 0.75}px`,
+                  fontSize: `${pieceWidth * PIECE_SIZE_MULTIPLIER}px`,
                   aspectRatio: 1,
                   transform: `translate(${piece.square.y * pieceWidth}px, ${
                     piece.square.x * pieceWidth
