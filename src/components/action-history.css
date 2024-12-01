@@ -2,6 +2,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column-reverse;
+  background-color: #3d3b3c;
 }
 
 .grid-container {
