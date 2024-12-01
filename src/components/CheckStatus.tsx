@@ -1,4 +1,5 @@
 import { useChessContext } from "../contexts/chessContext";
+import "./check-status.css";
 
 export default function CheckStatus() {
   const { gameboard } = useChessContext();
@@ -16,11 +17,5 @@ export default function CheckStatus() {
     } else return "";
   }
 
-  return (
-    <div
-      style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "2rem" }}
-    >
-      {getCheckStatusMessage()}
-    </div>
-  );
+  return <div className="check-status-container">{getCheckStatusMessage()}</div>;
 }
