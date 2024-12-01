@@ -179,6 +179,7 @@ export default function Pieces() {
                 className="piece"
                 style={{
                   width: `${pieceWidth}px`,
+                  fontSize: `${pieceWidth * 0.75}px`,
                   aspectRatio: 1,
                   transform: `translate(${piece.square.y * pieceWidth}px, ${
                     piece.square.x * pieceWidth

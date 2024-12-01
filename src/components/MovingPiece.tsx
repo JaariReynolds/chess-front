@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MovedPiece } from "./Pieces";
 import getChessIcon from "../functions/getChessIcon";
+import "./piece-component.css";
 
 interface MovingPieceProps {
   movedPiece: MovedPiece;
@@ -24,12 +25,11 @@ export default function MovingPiece({ movedPiece, pieceWidth }: MovingPieceProps
 
   return (
     <div
-      className="piece"
+      className="piece moving-piece"
       style={{
         ...style,
-        transition: "transform 0.25s cubic-bezier(.24,.82,.22,.97)",
         width: `${pieceWidth}px`,
-        aspectRatio: 1 / 1,
+        fontSize: `${pieceWidth * 0.9}px`,
       }}
     >
       {getChessIcon(movedPiece.piece.name, movedPiece.piece.teamColour)}

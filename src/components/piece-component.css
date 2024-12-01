@@ -13,3 +13,8 @@
   align-items: center;
   justify-content: center;
 }
+
+.moving-piece {
+  transition: transform 0.25s cubic-bezier(0.24, 0.82, 0.22, 0.97);
+  aspect-ratio: 1 / 1;
+}

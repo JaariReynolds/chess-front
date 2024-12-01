@@ -20,5 +20,5 @@ const iconMap = {
 
 export default function getChessIcon(pieceName: PieceName, teamColour: TeamColour): JSX.Element {
   const icon = iconMap[pieceName];
-  return <FontAwesomeIcon icon={icon} color={teamColour} size="5x" />;
+  return <FontAwesomeIcon icon={icon} color={teamColour} />;
 }
