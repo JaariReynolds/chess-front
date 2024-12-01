@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prefer-const */
+
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import { DataTransferObject } from "../types/dataTransferObjects";
 import { playActionAudio } from "../functions/playAudio";
-import { TRANSITION_LENGTH_MILLISECONDS } from "../constants";
+import { BOT_PERFORM_ACTION_DELAY_MILLISECONDS } from "../constants";
 
 interface FetchBotActionEffectProps {
   url: string;
@@ -45,6 +45,7 @@ export default function fetchBotActionEffect({
     async function postData() {
       try {
         setLoading(true);
+        const start = Date.now();
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -60,6 +61,14 @@ export default function fetchBotActionEffect({
 
         const { gameboard, actions }: DataTransferObject = await response.json();
 
+        // If the elapsed time is less than the provided delay, wait the remaining time
+        const elapsed = Date.now() - start;
+        if (elapsed < BOT_PERFORM_ACTION_DELAY_MILLISECONDS) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, BOT_PERFORM_ACTION_DELAY_MILLISECONDS - elapsed)
+          );
+        }
+
         playActionAudio(gameboard.previousActions[gameboard.previousActions.length - 1]);
 
         setGameboard(gameboard);
@@ -67,6 +76,8 @@ export default function fetchBotActionEffect({
         setPieceActions(null);
         setTeamActions(actions);
         setUserActionPerformed(false);
+
+        console.log("elapsed:", Date.now() - start);
       } catch (error) {
         const errorObject = error as Error;
         if (errorObject.name === "AbortError") {
@@ -79,9 +90,7 @@ export default function fetchBotActionEffect({
       }
     }
 
-    timeoutId = setTimeout(() => {
-      postData();
-    }, TRANSITION_LENGTH_MILLISECONDS * 2);
+    postData();
 
     return () => {
       clearTimeout(timeoutId);
