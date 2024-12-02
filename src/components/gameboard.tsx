@@ -7,6 +7,7 @@ import isPawnPromoteAction from "../functions/isPawnPromoteAction";
 import getCursorStyle from "../functions/getCursorStyle";
 import getTileColour from "../functions/getTileColour";
 import { usePromotionContext } from "../contexts/promotionContext";
+import { PLAYABLE_TEAM_COLOUR } from "../constants";
 
 function isCheckedKing(piece: Piece, gameboard: GameboardInterface): boolean {
   if (piece == null || gameboard.checkTeamColour == null || gameboard.isGameOver) return false;
@@ -53,6 +54,8 @@ export default function Gameboard() {
   }
 
   const buttonStyle = (rowIndex: number, colIndex: number) => {
+    if (gameboard.currentTeamColour != PLAYABLE_TEAM_COLOUR) return;
+
     const square = { x: rowIndex, y: colIndex };
     return {
       backgroundColor: getTileColour(square, pieceActions),
@@ -73,7 +76,8 @@ export default function Gameboard() {
             className={`
               square 
               ${
-                getCursorStyle({ x: rowIndex, y: colIndex }, teamActions, pieceActions) == "pointer"
+                getCursorStyle({ x: rowIndex, y: colIndex }, teamActions, pieceActions) ==
+                  "pointer" && gameboard.currentTeamColour == PLAYABLE_TEAM_COLOUR
                   ? "clickable-tile"
                   : ""
               }
