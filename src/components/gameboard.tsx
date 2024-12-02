@@ -1,12 +1,18 @@
 import { useChessContext } from "../contexts/chessContext";
 import "../components/gameboard.css";
-import { Piece, Square } from "../types/gameboard";
+import { Gameboard as GameboardInterface, Piece, Square } from "../types/gameboard";
 import getActionsForPiece from "../functions/getActionsForPiece";
 import { arePiecesEqual, areSquaresEqual } from "../functions/objectEquality";
 import isPawnPromoteAction from "../functions/isPawnPromoteAction";
 import getCursorStyle from "../functions/getCursorStyle";
 import getTileColour from "../functions/getTileColour";
 import { usePromotionContext } from "../contexts/promotionContext";
+
+function isCheckedKing(piece: Piece, gameboard: GameboardInterface): boolean {
+  if (piece == null || gameboard.checkTeamColour == null || gameboard.isGameOver) return false;
+
+  return piece.teamColour && piece.teamColour == gameboard.checkTeamColour && piece.name == "King";
+}
 
 export default function Gameboard() {
   const { gameboard, teamActions, setSelectedAction, pieceActions, setPieceActions } =
@@ -64,11 +70,15 @@ export default function Gameboard() {
             onClick={() => handleSquarePress(piece, { x: rowIndex, y: colIndex })}
             style={buttonStyle(rowIndex, colIndex)}
             key={parseInt(rowIndex.toString() + colIndex.toString())}
-            className={`square ${
-              getCursorStyle({ x: rowIndex, y: colIndex }, teamActions, pieceActions) == "pointer"
-                ? "clickable-tile"
-                : ""
-            }`}
+            className={`
+              square 
+              ${
+                getCursorStyle({ x: rowIndex, y: colIndex }, teamActions, pieceActions) == "pointer"
+                  ? "clickable-tile"
+                  : ""
+              }
+              ${isCheckedKing(piece, gameboard) ? "checked" : ""}
+            `}
           ></button>
         ))
       )}

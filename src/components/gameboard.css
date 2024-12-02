@@ -12,7 +12,12 @@
 }
 
 .clickable-tile:hover {
-  border: 3px solid whitesmoke;
+  border: 3px solid whitesmoke !important;
+}
+
+.checked {
+  border: 3px solid rgba(170, 5, 5, 1);
+  animation: checked-pulse 1s infinite;
 }
 
 .square:nth-child(16n + 2),
@@ -40,4 +45,16 @@
 
 .square:nth-child(64) {
   border-bottom-right-radius: 0.5rem;
+}
+
+@keyframes checked-pulse {
+  0% {
+    border-color: rgba(170, 5, 5, 1);
+  }
+  50% {
+    border-color: rgba(170, 5, 5, 0);
+  }
+  100% {
+    border-color: rgba(170, 5, 5, 1);
+  }
 }
