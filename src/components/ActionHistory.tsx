@@ -1,6 +1,7 @@
 import { useChessContext } from "../contexts/chessContext";
 import "../components/action-history.css";
 import { useEffect, useRef } from "react";
+import React from "react";
 
 export default function ActionHistory() {
   const { gameboard } = useChessContext();
@@ -18,13 +19,13 @@ export default function ActionHistory() {
         {gameboard.previousActions.map((action, index) => {
           if (index % 2 == 0) {
             return (
-              <>
+              <React.Fragment key={`${index}-white`}>
                 <span>{index / 2 + 1}.</span>
-                <span key={index}>{action}</span>
-              </>
+                <span>{action}</span>
+              </React.Fragment>
             );
           }
-          return <span key={index}>{action}</span>;
+          return <span key={`${index}-black`}>{action}</span>;
         })}
       </div>
     </div>
