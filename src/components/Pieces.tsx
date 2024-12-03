@@ -5,11 +5,11 @@ import { arePiecesEqual } from "../functions/objectEquality";
 import getChessIcon from "../functions/getChessIcon";
 import "./piece-component.css";
 import MovingPiece from "./MovingPiece";
-import isPawnPromoteAction from "../functions/isPawnPromoteAction";
-import getPromotionPieceName from "../functions/getPromotionPieceName";
-import getPiecevalueFromName from "../functions/getPieceValueFromName";
 import { playMoveAudio, playActionAudio } from "../functions/playAudio";
 import { PIECE_SIZE_MULTIPLIER, TRANSITION_LENGTH_MILLISECONDS } from "../constants";
+import isSinglePieceAction from "../functions/isSinglePieceAction";
+import handleCastleMovedPieces from "../functions/handleCastleMovedPieces";
+import handleSingleMovedPiece from "../functions/handleSingleMovedPiece";
 
 export interface MovedPiece {
   piece: Piece;
@@ -17,19 +17,17 @@ export interface MovedPiece {
 }
 
 export default function Pieces() {
-  const { gameboard, selectedAction, resetTrigger, userActionPerformed } = useChessContext();
-  const [unmovedPieces, setUnmovedPieces] = useState<(Piece | null)[][]>([]);
+  const { gameboard, resetTrigger } = useChessContext();
 
+  const [unmovedPieces, setUnmovedPieces] = useState<(Piece | null)[][]>([]);
   const [movedPieces, setMovedPieces] = useState<(MovedPiece | null)[]>([]);
 
   const isInitialRender = unmovedPieces.every((row) => row.every((piece) => piece === null));
 
-  const [pendingFrom, setPendingFrom] = useState<Piece[]>([]);
-  const [pendingTo, setPendingTo] = useState<Piece[]>([]);
-
   const [pieceWidth, setPieceWidth] = useState<number>(0);
   const pieceContainerRef = useRef<HTMLDivElement>(null);
 
+  // updates piece width on window resize
   useEffect(() => {
     const updateWidth = () => {
       if (pieceContainerRef.current) {
@@ -47,128 +45,59 @@ export default function Pieces() {
   }, []);
 
   useEffect(() => {
-    setUnmovedPieces([]);
+    setUnmovedPieces(gameboard.board);
+    setMovedPieces([]);
     playMoveAudio();
-  }, [resetTrigger]);
+  }, [resetTrigger, gameboard.board]);
 
-  // when an action is selected,
   useEffect(() => {
-    if (selectedAction == null) return;
+    if (isInitialRender || gameboard.lastPerformedAction == null) return;
 
-    playActionAudio(selectedAction.algebraicNotation);
+    const action = gameboard.lastPerformedAction;
+    playActionAudio(action.algebraicNotation);
 
-    if (selectedAction && isPawnPromoteAction(selectedAction.algebraicNotation)) {
-      const newName = getPromotionPieceName(selectedAction.algebraicNotation)!;
-      const basePiece = {
-        ...selectedAction.piece,
-        name: newName,
-        pieceValue: getPiecevalueFromName(newName),
-        hasMoved: true,
-      } as Piece;
+    // temp variable as this needs to be read later as well
+    let tempMovedPieces: (MovedPiece | null)[];
 
-      setPendingFrom((prev) => [...prev, basePiece]);
-      setPendingTo((prev) => [...prev, { ...basePiece, square: selectedAction.square }]);
+    // get the piece/pieces that HAVE moved
+    if (isSinglePieceAction(action)) {
+      // convert the Action object to a MovedPiece object
+      tempMovedPieces = handleSingleMovedPiece(action);
+      setMovedPieces(tempMovedPieces);
+    } else {
+      // converts the involved pieces (castles only) to MovedPiece objects
+      tempMovedPieces = handleCastleMovedPieces(unmovedPieces, action);
+      setMovedPieces(tempMovedPieces);
     }
-  }, [selectedAction]);
 
-  useEffect(() => {
-    // runs when a bot performs a pawn promotion
-    if (
-      gameboard.previousActions.length > 0 &&
-      userActionPerformed == false &&
-      isPawnPromoteAction(gameboard.previousActions[gameboard.previousActions.length - 1])
-    ) {
-      const previousBotPromoteAction = gameboard.lastPerformedAction;
-      if (!previousBotPromoteAction) return;
-
-      const newName = getPromotionPieceName(previousBotPromoteAction.algebraicNotation)!;
-      const basePiece = {
-        ...previousBotPromoteAction.piece,
-        name: newName,
-        pieceValue: getPiecevalueFromName(newName),
-        hasMoved: true,
-      } as Piece;
-
-      setPendingFrom((prev) => [...prev, basePiece]);
-      setPendingTo((prev) => [...prev, { ...basePiece, square: previousBotPromoteAction.square }]);
-    }
-  }, [userActionPerformed]);
-
-  useEffect(() => {
-    const tempPendingFrom: Piece[] = [...pendingFrom];
-    const tempPendingTo: Piece[] = [...pendingTo];
-
-    const existingPieces = gameboard.board.map((row, rowIndex) =>
-      row.map((updatedPiece, colIndex) => {
-        if (isInitialRender) return updatedPiece;
-
-        const existingPiece = unmovedPieces[rowIndex][colIndex];
-
-        // if no change
-        if (arePiecesEqual(existingPiece, updatedPiece)) return existingPiece;
-
-        // if a piece has captured/replaced an existing piece,
-        if (existingPiece && updatedPiece && !arePiecesEqual(existingPiece, updatedPiece)) {
-          tempPendingTo.push(updatedPiece);
-          return null;
-        }
-
-        // if piece has moved (from old square)
-        if (existingPiece && updatedPiece == null) {
-          tempPendingFrom.push(existingPiece);
-          return null;
-        }
-
-        // if piece has moved (to new square)
-        if (updatedPiece && existingPiece == null) {
-          tempPendingTo.push(updatedPiece);
-          return null;
-        }
-
-        return null;
+    // get the pieces that HAVENT moved
+    const tempNewUnmoved = unmovedPieces.map((row) =>
+      row.map((piece) => {
+        if (piece == null) return null;
+        else if (arePiecesEqual(piece, gameboard.board[piece.square.x][piece.square.y]))
+          return piece; // should only return the piece if it equals what's currently in the unmoved array
+        else return null;
       })
     );
+    setUnmovedPieces(tempNewUnmoved);
 
-    const movedPieces = tempPendingFrom.map((fromPiece) => {
-      const matchingEnd = tempPendingTo.find(
-        (toPiece) => toPiece.name == fromPiece.name && toPiece.teamColour == fromPiece.teamColour
-      );
-      if (matchingEnd != undefined) {
-        return {
-          piece: fromPiece,
-          newSquare: matchingEnd.square,
-        } as MovedPiece;
-      }
-
-      return null;
-    });
-
-    setMovedPieces(movedPieces);
-    setUnmovedPieces(existingPieces);
-  }, [gameboard.board, pendingFrom, pendingTo]);
-
-  useEffect(() => {
-    if (movedPieces.length == 0) return;
+    // set ALL to Unmoved after the transition/animation is over
     setTimeout(() => {
-      const newStaticPieces: (Piece | null)[][] = unmovedPieces;
+      setUnmovedPieces([
+        ...tempNewUnmoved,
+        tempMovedPieces.map((movedPiece) => {
+          if (movedPiece == null) return null;
+          else {
+            return { ...movedPiece.piece, square: movedPiece.newSquare, hasMoved: true } as Piece;
+          }
+        }),
+      ]);
 
-      movedPieces.forEach((movedPiece) => {
-        if (movedPiece) {
-          newStaticPieces[movedPiece.newSquare.x][movedPiece.newSquare.y] = {
-            ...movedPiece.piece,
-            square: movedPiece.newSquare,
-            hasMoved: true,
-          } as Piece;
-        }
-      });
-
-      setUnmovedPieces(newStaticPieces);
       setMovedPieces([]);
-      setPendingFrom([]);
-      setPendingTo([]);
     }, TRANSITION_LENGTH_MILLISECONDS);
-  }, [movedPieces, unmovedPieces]);
+  }, [gameboard]);
 
+  // render unmoved pieces separately from moved pieces, as moved pieces use transitions
   return (
     <div ref={pieceContainerRef} className="pieces-container">
       {unmovedPieces.map((row) =>
