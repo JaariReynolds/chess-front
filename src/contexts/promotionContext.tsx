@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Action } from "../types/gameboard";
+import { useChessContext } from "./chessContext";
 
 interface PromotionContextProviderProps {
   children: React.ReactNode;
@@ -15,8 +16,14 @@ interface PromotionContext {
 const PromotionContext = createContext<PromotionContext | null>(null);
 
 export default function PromotionContextProvider({ children }: PromotionContextProviderProps) {
+  const { resetTrigger } = useChessContext();
   const [promotionActionBase, setPromotionActionBase] = useState<Action | null>(null);
   const [promotionSelectionVisible, setPromotionSelectionVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    setPromotionActionBase(null);
+    setPromotionSelectionVisible(false);
+  }, [resetTrigger]);
 
   return (
     <PromotionContext.Provider
