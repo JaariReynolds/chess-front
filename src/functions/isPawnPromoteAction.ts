@@ -1,3 +1,6 @@
-export default function isPawnPromoteAction(actionAlgebraicNotation: string): boolean {
-  return actionAlgebraicNotation.includes("=");
+import { Action } from "../types/gameboard";
+
+export default function isPawnPromoteAction(action: Action | null): boolean {
+  console.log(action);
+  return action != null && action.algebraicNotation.includes("=");
 }
