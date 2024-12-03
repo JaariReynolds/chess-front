@@ -32,6 +32,7 @@
 }
 
 .gameboard-container {
+  align-self: flex-start;
   position: relative;
   grid-row: 2;
 }
