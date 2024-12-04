@@ -6,12 +6,13 @@ import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import { DataTransferObject } from "../types/dataTransferObjects";
 import { playActionAudio } from "../functions/playAudio";
 import { BOT_PERFORM_ACTION_DELAY_MILLISECONDS } from "../constants";
+import { TeamColour } from "../types/literals";
 
 interface FetchBotActionEffectProps {
   url: string;
   currentGameboard: Gameboard;
-  userActionPerformed: boolean;
-  setUserActionPerformed: React.Dispatch<React.SetStateAction<boolean>>;
+  userTeamColour: TeamColour;
+  botActionTrigger: boolean;
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
   setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
@@ -23,8 +24,8 @@ interface FetchBotActionEffectProps {
 export default function fetchBotActionEffect({
   url,
   currentGameboard,
-  userActionPerformed,
-  setUserActionPerformed,
+  userTeamColour,
+  botActionTrigger,
   setSelectedAction,
   setPieceActions,
   setGameboard,
@@ -33,11 +34,11 @@ export default function fetchBotActionEffect({
   setLoading,
 }: FetchBotActionEffectProps) {
   useEffect(() => {
-    if (userActionPerformed == false) return;
+    if (currentGameboard.board.every((row) => row.every((piece) => piece === null))) return;
 
-    if (currentGameboard.isGameOver) {
-      return;
-    }
+    if (currentGameboard.currentTeamColour == userTeamColour)
+      console.error("tried to request a bot action for the wrong team!");
+    if (currentGameboard.isGameOver) return;
 
     const abortController = new AbortController();
 
@@ -74,7 +75,6 @@ export default function fetchBotActionEffect({
         setSelectedAction(null);
         setPieceActions(null);
         setTeamActions(actions);
-        setUserActionPerformed(false);
       } catch (error) {
         const errorObject = error as Error;
         if (errorObject.name === "AbortError") {
@@ -92,5 +92,5 @@ export default function fetchBotActionEffect({
     return () => {
       abortController.abort();
     };
-  }, [userActionPerformed]);
+  }, [botActionTrigger]);
 }

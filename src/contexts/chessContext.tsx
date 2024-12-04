@@ -12,7 +12,6 @@ interface ChessContextProviderProps {
 interface ChessContext {
   gameboard: Gameboard;
   teamActions: AvailablePieceActions[];
-  userActionPerformed: boolean;
   selectedAction: Action | null;
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   pieceActions: AvailablePieceActions | null;
@@ -47,8 +46,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
   const [pieceActions, setPieceActions] = useState<AvailablePieceActions | null>(null);
   const [userTeamColour, setUserTeamColour] = useState<TeamColour>("White");
-
-  const [userActionPerformed, setUserActionPerformed] = useState<boolean>(false);
+  const [botActionTrigger, setBotActionTrigger] = useState<boolean>(false);
 
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -56,9 +54,10 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
 
   initializeGameEffect({
     url: "http://localhost:7179/api/chess/initialState",
-    setUserActionPerformed,
     setGameboard,
     setTeamActions,
+    userTeamColour,
+    setBotActionTrigger,
     setError,
     setLoading,
     resetTrigger,
@@ -67,8 +66,8 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   performActionEffect({
     url: "http://localhost:7179/api/chess/perform",
     currentGameboard: gameboard,
-    setUserActionPerformed,
     selectedAction,
+    setBotActionTrigger,
     setSelectedAction,
     setPieceActions,
     setGameboard,
@@ -80,8 +79,8 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   fetchBotActionEffect({
     url: "http://localhost:7179/api/chess/botAction",
     currentGameboard: gameboard,
-    userActionPerformed,
-    setUserActionPerformed,
+    userTeamColour,
+    botActionTrigger,
     setSelectedAction,
     setPieceActions,
     setGameboard,
@@ -100,7 +99,6 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
       value={{
         gameboard,
         teamActions,
-        userActionPerformed,
         selectedAction,
         setSelectedAction,
         pieceActions,

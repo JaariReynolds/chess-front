@@ -7,8 +7,8 @@ import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 interface PerformActionEffectProps {
   url: string;
   currentGameboard: Gameboard;
-  setUserActionPerformed: React.Dispatch<React.SetStateAction<boolean>>;
   selectedAction: Action | null;
+  setBotActionTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
   setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
@@ -20,8 +20,8 @@ interface PerformActionEffectProps {
 export default function performActionEffect({
   url,
   currentGameboard,
-  setUserActionPerformed,
   selectedAction,
+  setBotActionTrigger,
   setSelectedAction,
   setPieceActions,
   setGameboard,
@@ -59,7 +59,7 @@ export default function performActionEffect({
         const { gameboard, actions }: DataTransferObject = await response.json();
         setGameboard(gameboard);
         setTeamActions(actions);
-        setUserActionPerformed(true);
+        setBotActionTrigger((prev) => !prev); // any time an action is performed, trigger to request for the bot's action
 
         // clear the actions from the previous move
         setSelectedAction(null);

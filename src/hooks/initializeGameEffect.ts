@@ -3,12 +3,14 @@
 import { useEffect } from "react";
 import { AvailablePieceActions, Gameboard } from "../types/gameboard";
 import { DataTransferObject } from "../types/dataTransferObjects";
+import { TeamColour } from "../types/literals";
 
 interface InitializeGameEffectProps {
   url: string;
-  setUserActionPerformed: React.Dispatch<React.SetStateAction<boolean>>;
   setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
   setTeamActions: React.Dispatch<React.SetStateAction<AvailablePieceActions[]>>;
+  userTeamColour: TeamColour;
+  setBotActionTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   setError: React.Dispatch<React.SetStateAction<Error | null>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   resetTrigger: boolean;
@@ -16,9 +18,10 @@ interface InitializeGameEffectProps {
 
 export default function initializeGameEffect({
   url,
-  setUserActionPerformed,
   setGameboard,
   setTeamActions,
+  userTeamColour,
+  setBotActionTrigger,
   setError,
   setLoading,
   resetTrigger,
@@ -37,9 +40,13 @@ export default function initializeGameEffect({
 
         const { gameboard, actions }: DataTransferObject = await response.json();
 
+        // if the user's selected team colour is not the initial chess game teamcolour (white), signal to fetch bot action
+        if (gameboard.currentTeamColour != userTeamColour) {
+          setBotActionTrigger((prev) => !prev);
+        }
+
         setTeamActions(actions);
         setGameboard(gameboard);
-        setUserActionPerformed(false);
       } catch (error) {
         setError(error as Error);
       } finally {
