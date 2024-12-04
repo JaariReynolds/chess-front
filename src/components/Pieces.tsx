@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useChessContext } from "../contexts/chessContext";
 import { Piece, Square } from "../types/gameboard";
 import { arePiecesEqual } from "../functions/objectEquality";
-import getChessIcon from "../functions/getChessIcon";
 import "./piece-component.css";
 import MovingPiece from "./MovingPiece";
 import { playMoveAudio, playActionAudio } from "../functions/playAudio";
@@ -10,6 +9,7 @@ import { PIECE_SIZE_MULTIPLIER, TRANSITION_LENGTH_MILLISECONDS } from "../consta
 import isSinglePieceAction from "../functions/isSinglePieceAction";
 import handleCastleMovedPieces from "../functions/handleCastleMovedPieces";
 import handleSingleMovedPiece from "../functions/handleSingleMovedPiece";
+import ChessIcon from "./ChessIcon";
 
 export interface MovedPiece {
   piece: Piece;
@@ -116,7 +116,7 @@ export default function Pieces() {
                   }px)`,
                 }}
               >
-                {getChessIcon(piece.name, piece.teamColour)}
+                <ChessIcon pieceName={piece.name} teamColour={piece.teamColour} />
               </div>
             )
           );

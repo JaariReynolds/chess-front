@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { MovedPiece } from "./Pieces";
-import getChessIcon from "../functions/getChessIcon";
 import { MOVING_SIZE_MULTIPLIER } from "../constants";
 import "./piece-component.css";
+import ChessIcon from "./ChessIcon";
 
 interface MovingPieceProps {
   movedPiece: MovedPiece;
@@ -33,7 +33,7 @@ export default function MovingPiece({ movedPiece, pieceWidth }: MovingPieceProps
         fontSize: `${pieceWidth * MOVING_SIZE_MULTIPLIER}px`,
       }}
     >
-      {getChessIcon(movedPiece.piece.name, movedPiece.piece.teamColour)}
+      <ChessIcon pieceName={movedPiece.piece.name} teamColour={movedPiece.piece.teamColour} />
     </div>
   );
 }
