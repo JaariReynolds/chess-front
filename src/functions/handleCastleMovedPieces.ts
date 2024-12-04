@@ -56,7 +56,5 @@ export default function handleCastleMovedPieces(
     newSquare: kingNewSquare,
   } as MovedPiece;
 
-  console.log(rookMovedPiece);
-
   return [rookMovedPiece, kingMovedPiece];
 }
