@@ -7,7 +7,6 @@ import isPawnPromoteAction from "../functions/isPawnPromoteAction";
 import getCursorStyle from "../functions/getCursorStyle";
 import getTileColour from "../functions/getTileColour";
 import { usePromotionContext } from "../contexts/promotionContext";
-import { PLAYABLE_TEAM_COLOUR } from "../constants";
 
 function isCheckedKing(piece: Piece, gameboard: GameboardInterface): boolean {
   if (piece == null || gameboard.checkTeamColour == null || gameboard.isGameOver) return false;
@@ -16,8 +15,14 @@ function isCheckedKing(piece: Piece, gameboard: GameboardInterface): boolean {
 }
 
 export default function Gameboard() {
-  const { gameboard, teamActions, setSelectedAction, pieceActions, setPieceActions } =
-    useChessContext();
+  const {
+    gameboard,
+    teamActions,
+    setSelectedAction,
+    pieceActions,
+    setPieceActions,
+    userTeamColour,
+  } = useChessContext();
 
   const { setPromotionActionBase, setPromotionSelectionVisible } = usePromotionContext();
 
@@ -54,7 +59,7 @@ export default function Gameboard() {
   }
 
   const buttonStyle = (rowIndex: number, colIndex: number) => {
-    if (gameboard.currentTeamColour != PLAYABLE_TEAM_COLOUR) return;
+    if (gameboard.currentTeamColour != userTeamColour) return;
 
     const square = { x: rowIndex, y: colIndex };
     return {
@@ -64,12 +69,12 @@ export default function Gameboard() {
   };
 
   return (
-    <div className="chessboard">
+    <div className={`chessboard ${userTeamColour == "White" ? "" : "rotated"}`}>
       {gameboard.board.map((row, rowIndex) =>
         row.map((piece, colIndex) => (
           <button
             type="button"
-            disabled={gameboard.currentTeamColour == "Black"}
+            disabled={gameboard.currentTeamColour != userTeamColour}
             onClick={() => handleSquarePress(piece, { x: rowIndex, y: colIndex })}
             style={buttonStyle(rowIndex, colIndex)}
             key={parseInt(rowIndex.toString() + colIndex.toString())}
@@ -77,7 +82,7 @@ export default function Gameboard() {
               square 
               ${
                 getCursorStyle({ x: rowIndex, y: colIndex }, teamActions, pieceActions) ==
-                  "pointer" && gameboard.currentTeamColour == PLAYABLE_TEAM_COLOUR
+                  "pointer" && gameboard.currentTeamColour == userTeamColour
                   ? "clickable-tile"
                   : ""
               }

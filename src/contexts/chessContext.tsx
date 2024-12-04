@@ -3,6 +3,7 @@ import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import initializeGameEffect from "../hooks/initializeGameEffect";
 import performActionEffect from "../hooks/performActionEffect";
 import fetchBotActionEffect from "../hooks/fetchBotActionEffect";
+import { TeamColour } from "../types/literals";
 
 interface ChessContextProviderProps {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ interface ChessContext {
   setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
   resetTrigger: boolean;
   setResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+  userTeamColour: TeamColour;
   error: Error | null;
   loading: boolean;
 }
@@ -44,6 +46,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [teamActions, setTeamActions] = useState<AvailablePieceActions[]>([]);
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
   const [pieceActions, setPieceActions] = useState<AvailablePieceActions | null>(null);
+  const [userTeamColour, setUserTeamColour] = useState<TeamColour>("White");
 
   const [userActionPerformed, setUserActionPerformed] = useState<boolean>(false);
 
@@ -104,6 +107,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setPieceActions,
         resetTrigger,
         setResetTrigger,
+        userTeamColour,
         error,
         loading,
       }}

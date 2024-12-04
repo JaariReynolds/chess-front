@@ -17,7 +17,7 @@ export interface MovedPiece {
 }
 
 export default function Pieces() {
-  const { gameboard, resetTrigger } = useChessContext();
+  const { gameboard, resetTrigger, userTeamColour } = useChessContext();
 
   const [unmovedPieces, setUnmovedPieces] = useState<(Piece | null)[][]>([]);
   const [movedPieces, setMovedPieces] = useState<(MovedPiece | null)[]>([]);
@@ -99,7 +99,10 @@ export default function Pieces() {
 
   // render unmoved pieces separately from moved pieces, as moved pieces use transitions
   return (
-    <div ref={pieceContainerRef} className="pieces-container">
+    <div
+      ref={pieceContainerRef}
+      className={`pieces-container ${userTeamColour == "White" ? "" : "rotated"}`}
+    >
       {unmovedPieces.map((row) =>
         row.map((piece) => {
           return (
