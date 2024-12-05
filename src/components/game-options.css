@@ -17,12 +17,16 @@
   border-radius: 0.5rem;
 }
 
+.colour-option:hover {
+  cursor: pointer;
+}
+
 .white {
-  background-color: white;
+  background-color: var(--white-colour);
 }
 
 .black {
-  background-color: black;
+  background-color: var(--black-colour);
 }
 
 input[type="radio"] {

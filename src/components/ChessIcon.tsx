@@ -19,6 +19,11 @@ const iconMap = {
   King: faChessKing,
 };
 
+const colourMap = {
+  White: "#FFFFF0", // ivory, matches var(--white-colour)
+  Black: "#100C08", // smoky black, matches var(--black-colour)
+};
+
 interface ChessIconProps {
   pieceName: PieceName;
   teamColour: TeamColour;
@@ -27,10 +32,11 @@ interface ChessIconProps {
 export default function ChessIcon({ pieceName, teamColour }: ChessIconProps): JSX.Element {
   const { userTeamColour } = useChessContext();
   const icon = iconMap[pieceName];
+  const colour = colourMap[teamColour];
   return (
     <FontAwesomeIcon
       icon={icon}
-      color={teamColour}
+      color={colour}
       className={userTeamColour == "White" ? "" : "rotated"}
     />
   );

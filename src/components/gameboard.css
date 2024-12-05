@@ -12,7 +12,7 @@
 }
 
 .clickable-tile:hover {
-  border: 3px solid whitesmoke !important;
+  border: 3px solid var(--white-colour) !important;
 }
 
 .checked {
