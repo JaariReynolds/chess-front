@@ -19,6 +19,7 @@ interface ChessContext {
   resetTrigger: boolean;
   setResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   userTeamColour: TeamColour;
+  setUserTeamColour: React.Dispatch<React.SetStateAction<TeamColour>>;
   error: Error | null;
   loading: boolean;
 }
@@ -106,6 +107,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         resetTrigger,
         setResetTrigger,
         userTeamColour,
+        setUserTeamColour,
         error,
         loading,
       }}
