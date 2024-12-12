@@ -1,12 +1,15 @@
 import { TeamColour } from "../types/literals";
 import "./game-options.css";
 
-interface GameOptionsProps {
+interface StandardOptionsProps {
   selectedColour: TeamColour;
   setSelectedColour: React.Dispatch<React.SetStateAction<TeamColour>>;
 }
 
-export default function GameOptions({ selectedColour, setSelectedColour }: GameOptionsProps) {
+export default function StandardOptions({
+  selectedColour,
+  setSelectedColour,
+}: StandardOptionsProps) {
   function handleColourChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSelectedColour(event.target.value as TeamColour);
   }
