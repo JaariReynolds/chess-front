@@ -42,4 +42,10 @@ button:hover {
   box-shadow: none;
   outline: none;
   font: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+button:hover {
+  background-color: #555;
 }

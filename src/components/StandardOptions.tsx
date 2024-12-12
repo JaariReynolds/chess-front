@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TeamColour } from "../types/literals";
-import Reset from "./Reset";
+import StandardReset from "./StandardReset";
 import "./standard-options.css";
 import TeamColourSelector from "./TeamColourSelector";
 
@@ -10,7 +10,7 @@ export default function StandardOptions() {
   return (
     <div className="standard-options-container">
       <TeamColourSelector selectedColour={selectedColour} setSelectedColour={setSelectedColour} />
-      <Reset selectedColour={selectedColour} />
+      <StandardReset selectedColour={selectedColour} />
     </div>
   );
 }

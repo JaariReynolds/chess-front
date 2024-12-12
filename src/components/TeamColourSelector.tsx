@@ -14,7 +14,9 @@ export default function TeamColourSelector({
   }
   return (
     <div className="teamcolour-selector">
-      <div className="teamcolour-title">Play as:</div>
+      <div className="teamcolour-title" style={{ margin: "auto 0" }}>
+        Play as:
+      </div>
       <label className="colour-option white" title="White">
         <input
           title="White"

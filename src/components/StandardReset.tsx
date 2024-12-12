@@ -4,7 +4,7 @@ import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import "./reset.css";
 import { TeamColour } from "../types/literals";
 
-export default function Reset({ selectedColour }: { selectedColour: TeamColour }) {
+export default function StandardReset({ selectedColour }: { selectedColour: TeamColour }) {
   const { setResetTrigger, setUserTeamColour, gameboard } = useChessContext();
 
   function handleReset() {
