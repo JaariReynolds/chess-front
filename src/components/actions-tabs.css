@@ -1,0 +1,4 @@
+.actions-tabs-container {
+  display: grid;
+  overflow: hidden;
+}

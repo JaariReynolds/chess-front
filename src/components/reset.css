@@ -1,5 +1,6 @@
 .reset-container {
   cursor: pointer;
+  height: 5rem;
 }
 
 .reset-container:hover {

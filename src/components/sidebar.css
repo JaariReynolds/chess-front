@@ -1,14 +1,14 @@
 .sidebar-container {
   display: grid;
   grid-row: 2;
-  grid-template-rows: 6rem 3rem 1fr;
+  grid-template-rows: auto 1fr;
   row-gap: 1rem;
   min-width: 18rem;
   overflow: hidden;
   border-radius: 0.5rem;
 }
 
-.sidebar-container > * {
+.sidebar-container > div {
   border-radius: 0.5rem;
 }
 
@@ -18,6 +18,5 @@
     margin: auto;
     height: 700px;
     width: 25rem;
-    grid-template-rows: 5rem 3rem 1fr;
   }
 }
