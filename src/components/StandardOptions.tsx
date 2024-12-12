@@ -1,5 +1,5 @@
 import { TeamColour } from "../types/literals";
-import "./game-options.css";
+import "./standard-options.css";
 
 interface StandardOptionsProps {
   selectedColour: TeamColour;
@@ -15,7 +15,7 @@ export default function StandardOptions({
   }
 
   return (
-    <div className="game-options-container">
+    <div className="standard-options-container">
       <div className="teamcolour-selector">
         <div className="teamcolour-title">Play as:</div>
 
