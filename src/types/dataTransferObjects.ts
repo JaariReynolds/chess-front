@@ -9,3 +9,7 @@ export type GameboardActionRequestObject = {
   gameboard: Gameboard;
   action: Action;
 };
+
+export type FenStringObject = {
+  fenString: string;
+};
