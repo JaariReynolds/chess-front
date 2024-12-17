@@ -5,11 +5,11 @@ import "./reset.css";
 import { TeamColour } from "../types/literals";
 
 export default function StandardReset({ selectedColour }: { selectedColour: TeamColour }) {
-  const { setResetTrigger, setUserTeamColour, gameboard } = useChessContext();
+  const { setStandardResetTrigger, setUserTeamColour, gameboard } = useChessContext();
 
   function handleReset() {
     setUserTeamColour(selectedColour);
-    setResetTrigger((prev) => !prev);
+    setStandardResetTrigger((prev) => !prev);
   }
 
   return (
