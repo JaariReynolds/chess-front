@@ -1,22 +1,13 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from "react";
-import { AvailablePieceActions, Gameboard } from "../types/gameboard";
-import { DataTransferObject } from "../types/dataTransferObjects";
-import { TeamColour } from "../types/literals";
+import { InitializeGameEffectProps } from "./initializeGameEffect";
+import { DataTransferObject, FenStringObject } from "../types/dataTransferObjects";
 
-export interface InitializeGameEffectProps {
-  url: string;
-  setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
-  setTeamActions: React.Dispatch<React.SetStateAction<AvailablePieceActions[]>>;
-  userTeamColour: TeamColour;
-  setBotActionTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-  setError: React.Dispatch<React.SetStateAction<Error | null>>;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  resetTrigger: boolean;
+interface InitializeFenGameEffectProps extends InitializeGameEffectProps {
+  fenString: string;
 }
 
-export default function initializeGameEffect({
+export default function initializeFenGameEffect({
   url,
   setGameboard,
   setTeamActions,
@@ -25,14 +16,24 @@ export default function initializeGameEffect({
   setError,
   setLoading,
   resetTrigger,
-}: InitializeGameEffectProps) {
+  fenString,
+}: InitializeFenGameEffectProps) {
   useEffect(() => {
     const abortController = new AbortController();
+
+    const requestBody = { fenString: fenString } as FenStringObject;
 
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(url, { signal: abortController.signal });
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+          signal: abortController.signal,
+        });
 
         if (!response.ok) {
           throw new Error(`API request failed with status: ${response.status}`);
