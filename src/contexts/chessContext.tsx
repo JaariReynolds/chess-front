@@ -4,6 +4,7 @@ import initializeGameEffect from "../hooks/initializeGameEffect";
 import performActionEffect from "../hooks/performActionEffect";
 import fetchBotActionEffect from "../hooks/fetchBotActionEffect";
 import { TeamColour } from "../types/literals";
+import initializeFenGameEffect from "../hooks/initializeFenGameEffect";
 
 interface ChessContextProviderProps {
   children: React.ReactNode;
@@ -16,8 +17,10 @@ interface ChessContext {
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   pieceActions: AvailablePieceActions | null;
   setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
-  resetTrigger: boolean;
-  setResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+  standardResetTrigger: boolean;
+  setStandardResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+  advancedResetTrigger: boolean;
+  setAdvancedResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   userTeamColour: TeamColour;
   setUserTeamColour: React.Dispatch<React.SetStateAction<TeamColour>>;
   fenInput: string;
@@ -54,7 +57,8 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
 
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [resetTrigger, setResetTrigger] = useState<boolean>(false);
+  const [standardResetTrigger, setStandardResetTrigger] = useState<boolean>(false);
+  const [advancedResetTrigger, setAdvancedResetTrigger] = useState<boolean>(false);
 
   initializeGameEffect({
     url: "http://localhost:7179/api/chess/initialState",
@@ -64,7 +68,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     setBotActionTrigger,
     setError,
     setLoading,
-    resetTrigger,
+    resetTrigger: standardResetTrigger,
   });
 
   performActionEffect({
@@ -93,10 +97,22 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     setLoading,
   });
 
+  initializeFenGameEffect({
+    url: "http://localhost:7179/api/chess/fen",
+    setGameboard,
+    setTeamActions,
+    userTeamColour,
+    setBotActionTrigger,
+    setError,
+    setLoading,
+    resetTrigger: advancedResetTrigger,
+    fenString: fenInput,
+  });
+
   useEffect(() => {
     setSelectedAction(null);
     setPieceActions(null);
-  }, [resetTrigger]);
+  }, [standardResetTrigger, advancedResetTrigger]);
 
   return (
     <ChessContext.Provider
@@ -107,8 +123,10 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setSelectedAction,
         pieceActions,
         setPieceActions,
-        resetTrigger,
-        setResetTrigger,
+        standardResetTrigger,
+        setStandardResetTrigger,
+        advancedResetTrigger,
+        setAdvancedResetTrigger,
         userTeamColour,
         setUserTeamColour,
         fenInput,
