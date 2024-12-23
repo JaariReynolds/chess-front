@@ -2,14 +2,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useChessContext } from "../contexts/chessContext";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import "./reset.css";
-import { TeamColour } from "../types/literals";
 
-export default function StandardReset({ selectedColour }: { selectedColour: TeamColour }) {
-  const { setStandardResetTrigger, setUserTeamColour, gameboard } = useChessContext();
+export default function StandardReset() {
+  const { fetchInitialBoard, gameboard } = useChessContext();
 
   function handleReset() {
-    setUserTeamColour(selectedColour);
-    setStandardResetTrigger((prev) => !prev);
+    fetchInitialBoard();
   }
 
   return (

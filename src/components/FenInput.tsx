@@ -1,14 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./advanced-options.css";
 import { faPaste } from "@fortawesome/free-solid-svg-icons/faPaste";
+import { useChessContext } from "../contexts/chessContext";
 
-export default function FenInput({
-  fenString,
-  setFenString,
-}: {
-  fenString: string;
-  setFenString: React.Dispatch<React.SetStateAction<string>>;
-}) {
+export default function FenInput() {
+  const { fenString, setFenString } = useChessContext();
+
   async function handlePasteFromClipboard() {
     try {
       if (navigator.clipboard) {

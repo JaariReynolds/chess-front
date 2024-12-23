@@ -1,17 +1,18 @@
+import { useEffect } from "react";
+import { useChessContext } from "../contexts/chessContext";
 import { TeamColour } from "../types/literals";
 
-interface TeamColourSelectorProps {
-  selectedColour: TeamColour;
-  setSelectedColour: React.Dispatch<React.SetStateAction<TeamColour>>;
-}
+export default function TeamColourSelector() {
+  const { userTeamColour, setUserTeamColour, fetchInitialBoard } = useChessContext();
 
-export default function TeamColourSelector({
-  selectedColour,
-  setSelectedColour,
-}: TeamColourSelectorProps) {
   function handleColourChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setSelectedColour(event.target.value as TeamColour);
+    setUserTeamColour(event.target.value as TeamColour);
   }
+
+  useEffect(() => {
+    fetchInitialBoard();
+  }, [userTeamColour]);
+
   return (
     <div className="teamcolour-selector">
       <div className="teamcolour-title" style={{ margin: "auto 0" }}>
@@ -23,7 +24,7 @@ export default function TeamColourSelector({
           type="radio"
           name="teamcolour"
           value="White"
-          checked={selectedColour == "White"}
+          checked={userTeamColour == "White"}
           onChange={handleColourChange}
         />
       </label>
@@ -33,7 +34,7 @@ export default function TeamColourSelector({
           type="radio"
           name="teamcolour"
           value="Black"
-          checked={selectedColour == "Black"}
+          checked={userTeamColour == "Black"}
           onChange={handleColourChange}
         />
       </label>
