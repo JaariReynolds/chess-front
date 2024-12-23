@@ -1,9 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
-import initializeGameEffect from "../hooks/initializeGameEffect";
 import performActionEffect from "../hooks/performActionEffect";
 import fetchBotActionEffect from "../hooks/fetchBotActionEffect";
 import { TeamColour } from "../types/literals";
+import useInitialChessFetch from "../hooks/useInitialChessFetch";
+import useFenChessFetch from "../hooks/useFenChessFetch";
+import { ApiResponse } from "../types/apiResponse";
+import { DataTransferObject } from "../types/dataTransferObjects";
 
 interface ChessContextProviderProps {
   children: React.ReactNode;
@@ -25,6 +28,11 @@ interface ChessContext {
   setBotActionTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   userTeamColour: TeamColour;
   setUserTeamColour: React.Dispatch<React.SetStateAction<TeamColour>>;
+  fenString: string;
+  setFenString: React.Dispatch<React.SetStateAction<string>>;
+  fetchInitialBoard: () => Promise<void>;
+  fetchFenBoard: () => Promise<void>;
+
   error: Error | null;
   loading: boolean;
 }
@@ -59,16 +67,29 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [standardResetTrigger, setStandardResetTrigger] = useState<boolean>(false);
   const [advancedResetTrigger, setAdvancedResetTrigger] = useState<boolean>(false);
 
-  initializeGameEffect({
-    url: "http://localhost:7179/api/chess/initialState",
-    setGameboard,
-    setTeamActions,
-    userTeamColour,
-    setBotActionTrigger,
-    setError,
-    setLoading,
-    resetTrigger: standardResetTrigger,
+  const [fenString, setFenString] = useState<string>("");
+
+  const [data, setData] = useState<ApiResponse<DataTransferObject>>({
+    success: false,
+    data: null,
+    error: "Api not yet called.",
   });
+
+  const { fetchInitialBoard } = useInitialChessFetch<DataTransferObject>(setData);
+
+  const { fetchFenBoard } = useFenChessFetch<DataTransferObject>(fenString, setData);
+
+  useEffect(() => {
+    if (data.success) {
+      setGameboard(data.data!.gameboard);
+      setTeamActions(data.data!.actions);
+      if (data.data!.gameboard.currentTeamColour !== userTeamColour) {
+        setBotActionTrigger((prev) => !prev);
+      }
+    } else {
+      setError({ message: data.error } as Error);
+    }
+  }, [data]);
 
   performActionEffect({
     url: "http://localhost:7179/api/chess/perform",
@@ -119,6 +140,10 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setBotActionTrigger,
         userTeamColour,
         setUserTeamColour,
+        fenString,
+        setFenString,
+        fetchInitialBoard,
+        fetchFenBoard,
         error,
         loading,
       }}
