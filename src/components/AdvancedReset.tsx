@@ -1,19 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./reset.css";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { useChessContext } from "../contexts/chessContext";
 
-export default function AdvancedReset({
-  fenString,
-  setFenString,
-  fetchNow,
-}: {
-  fenString: string;
-  setFenString: React.Dispatch<React.SetStateAction<string>>;
-  fetchNow: () => Promise<void>;
-}) {
+export default function AdvancedReset() {
+  const { fenString, setFenString, fetchFenBoard } = useChessContext();
   function handleReset() {
     setFenString((prev) => prev.trim());
-    fetchNow();
+    fetchFenBoard();
   }
 
   return (
