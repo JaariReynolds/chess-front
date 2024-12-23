@@ -11,7 +11,8 @@ export default function ActionsTabs() {
   return (
     <div className="actions-tabs-container">
       <TabSelector setSelectedTab={setSelectedTab} />
-      {selectedTab == "Standard" ? <StandardOptions /> : <AdvancedOptions />}
+      <StandardOptions style={{ display: selectedTab == "Standard" ? "grid" : "none" }} />
+      <AdvancedOptions style={{ display: selectedTab == "Advanced" ? "grid" : "none" }} />
     </div>
   );
 }

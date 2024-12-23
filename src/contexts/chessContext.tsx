@@ -4,7 +4,6 @@ import initializeGameEffect from "../hooks/initializeGameEffect";
 import performActionEffect from "../hooks/performActionEffect";
 import fetchBotActionEffect from "../hooks/fetchBotActionEffect";
 import { TeamColour } from "../types/literals";
-import initializeFenGameEffect from "../hooks/initializeFenGameEffect";
 
 interface ChessContextProviderProps {
   children: React.ReactNode;
@@ -26,8 +25,6 @@ interface ChessContext {
   setBotActionTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   userTeamColour: TeamColour;
   setUserTeamColour: React.Dispatch<React.SetStateAction<TeamColour>>;
-  fenInput: string;
-  setFenInput: React.Dispatch<React.SetStateAction<string>>;
   error: Error | null;
   loading: boolean;
 }
@@ -56,7 +53,6 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [pieceActions, setPieceActions] = useState<AvailablePieceActions | null>(null);
   const [userTeamColour, setUserTeamColour] = useState<TeamColour>("White");
   const [botActionTrigger, setBotActionTrigger] = useState<boolean>(false);
-  const [fenInput, setFenInput] = useState<string>("");
 
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -100,18 +96,6 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     setLoading,
   });
 
-  initializeFenGameEffect({
-    url: "http://localhost:7179/api/chess/fen",
-    setGameboard,
-    setTeamActions,
-    userTeamColour,
-    setBotActionTrigger,
-    setError,
-    setLoading,
-    resetTrigger: advancedResetTrigger,
-    fenString: fenInput,
-  });
-
   useEffect(() => {
     setSelectedAction(null);
     setPieceActions(null);
@@ -135,8 +119,6 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setBotActionTrigger,
         userTeamColour,
         setUserTeamColour,
-        fenInput,
-        setFenInput,
         error,
         loading,
       }}

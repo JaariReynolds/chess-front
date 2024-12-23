@@ -1,16 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./advanced-options.css";
 import { faPaste } from "@fortawesome/free-solid-svg-icons/faPaste";
-import { useChessContext } from "../contexts/chessContext";
 
-export default function FenInput() {
-  const { fenInput, setFenInput } = useChessContext();
-
+export default function FenInput({
+  fenString,
+  setFenString,
+}: {
+  fenString: string;
+  setFenString: React.Dispatch<React.SetStateAction<string>>;
+}) {
   async function handlePasteFromClipboard() {
     try {
       if (navigator.clipboard) {
         const clipboardText = await navigator.clipboard.readText();
-        setFenInput(clipboardText);
+        setFenString(clipboardText);
       } else {
         alert("Clipboard API not supported in this browser.");
       }
@@ -25,8 +28,8 @@ export default function FenInput() {
         className="fen-input"
         rows={3}
         maxLength={100}
-        value={fenInput}
-        onChange={(e) => setFenInput(e.target.value)}
+        value={fenString}
+        onChange={(e) => setFenString(e.target.value)}
         placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
       />
       <button
