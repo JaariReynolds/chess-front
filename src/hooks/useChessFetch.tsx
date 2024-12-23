@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useChessContext } from "../contexts/chessContext";
 import { DataTransferObject } from "../types/dataTransferObjects";
+import { ApiResponse } from "../types/apiResponse";
 
 export function useChessFetch(url: string, options: RequestInit, fetchOnMount: boolean = true) {
   const { userTeamColour, setGameboard, setTeamActions, setBotActionTrigger } = useChessContext();
@@ -21,14 +22,20 @@ export function useChessFetch(url: string, options: RequestInit, fetchOnMount: b
         throw new Error(`API request failed with status: ${response.status}`);
       }
 
-      const { gameboard, actions }: DataTransferObject = await response.json();
+      const result: ApiResponse<DataTransferObject> = await response.json();
 
-      if (gameboard.currentTeamColour != userTeamColour) {
-        setBotActionTrigger((prev) => !prev);
+      console.log(result);
+
+      if (result.success) {
+        setGameboard(result.data!.gameboard);
+        setTeamActions(result.data!.actions);
+
+        if (result.data!.gameboard.currentTeamColour != userTeamColour) {
+          setBotActionTrigger((prev) => !prev);
+        }
+      } else {
+        setError({ message: result.error } as Error);
       }
-
-      setGameboard(gameboard);
-      setTeamActions(actions);
     } catch (error) {
       setError(error as Error);
     } finally {
