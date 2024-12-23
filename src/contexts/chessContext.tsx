@@ -12,7 +12,9 @@ interface ChessContextProviderProps {
 
 interface ChessContext {
   gameboard: Gameboard;
+  setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
   teamActions: AvailablePieceActions[];
+  setTeamActions: React.Dispatch<React.SetStateAction<AvailablePieceActions[]>>;
   selectedAction: Action | null;
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   pieceActions: AvailablePieceActions | null;
@@ -21,6 +23,7 @@ interface ChessContext {
   setStandardResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   advancedResetTrigger: boolean;
   setAdvancedResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+  setBotActionTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   userTeamColour: TeamColour;
   setUserTeamColour: React.Dispatch<React.SetStateAction<TeamColour>>;
   fenInput: string;
@@ -118,7 +121,9 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     <ChessContext.Provider
       value={{
         gameboard,
+        setGameboard,
         teamActions,
+        setTeamActions,
         selectedAction,
         setSelectedAction,
         pieceActions,
@@ -127,6 +132,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setStandardResetTrigger,
         advancedResetTrigger,
         setAdvancedResetTrigger,
+        setBotActionTrigger,
         userTeamColour,
         setUserTeamColour,
         fenInput,
