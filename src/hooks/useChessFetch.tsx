@@ -3,7 +3,7 @@ import { useChessContext } from "../contexts/chessContext";
 import { DataTransferObject } from "../types/dataTransferObjects";
 import { ApiResponse } from "../types/apiResponse";
 
-export function useChessFetch(url: string, options: RequestInit, fetchOnMount: boolean = true) {
+export function useChessFetch(url: string, options?: RequestInit, fetchOnMount: boolean = true) {
   const { userTeamColour, setGameboard, setTeamActions, setBotActionTrigger } = useChessContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -24,13 +24,10 @@ export function useChessFetch(url: string, options: RequestInit, fetchOnMount: b
 
       const result: ApiResponse<DataTransferObject> = await response.json();
 
-      console.log(result);
-
       if (result.success) {
         setGameboard(result.data!.gameboard);
         setTeamActions(result.data!.actions);
-
-        if (result.data!.gameboard.currentTeamColour != userTeamColour) {
+        if (result.data!.gameboard.currentTeamColour !== userTeamColour) {
           setBotActionTrigger((prev) => !prev);
         }
       } else {
@@ -45,7 +42,7 @@ export function useChessFetch(url: string, options: RequestInit, fetchOnMount: b
 
   useEffect(() => {
     if (fetchOnMount) fetchData();
-  }, [fetchOnMount, fetchData]);
+  }, [fetchOnMount]);
 
   return { isLoading, error, fetchNow: fetchData };
 }
