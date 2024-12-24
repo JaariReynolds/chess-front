@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
-import performActionEffect from "../hooks/performActionEffect";
-import fetchBotActionEffect from "../hooks/fetchBotActionEffect";
 import { TeamColour } from "../types/literals";
 import useInitialChessFetch from "../hooks/useInitialChessFetch";
 import useFenChessFetch from "../hooks/useFenChessFetch";
 import { ApiResponse } from "../types/apiResponse";
 import { DataTransferObject } from "../types/dataTransferObjects";
+import usePerformActionChessFetch from "../hooks/usePerformActionChessFetch";
+import useBotActionFetch from "../hooks/useBotActionFetch";
 
 interface ChessContextProviderProps {
   children: React.ReactNode;
@@ -79,8 +79,16 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
 
   const { fetchFenBoard } = useFenChessFetch<DataTransferObject>(fenString, setData);
 
+  usePerformActionChessFetch(setData, gameboard, selectedAction);
+
+  useBotActionFetch(setData, gameboard, botActionTrigger);
+
   useEffect(() => {
+    setSelectedAction(null);
+    setPieceActions(null);
+
     if (data.success) {
+      console.log(data.data?.gameboard.currentTeamColour);
       setGameboard(data.data!.gameboard);
       setTeamActions(data.data!.actions);
       if (data.data!.gameboard.currentTeamColour !== userTeamColour) {
@@ -90,37 +98,6 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
       setError({ message: data.error } as Error);
     }
   }, [data]);
-
-  performActionEffect({
-    url: "http://localhost:7179/api/chess/perform",
-    currentGameboard: gameboard,
-    selectedAction,
-    setBotActionTrigger,
-    setSelectedAction,
-    setPieceActions,
-    setGameboard,
-    setTeamActions,
-    setError,
-    setLoading,
-  });
-
-  fetchBotActionEffect({
-    url: "http://localhost:7179/api/chess/botAction",
-    currentGameboard: gameboard,
-    userTeamColour,
-    botActionTrigger,
-    setSelectedAction,
-    setPieceActions,
-    setGameboard,
-    setTeamActions,
-    setError,
-    setLoading,
-  });
-
-  useEffect(() => {
-    setSelectedAction(null);
-    setPieceActions(null);
-  }, [standardResetTrigger, advancedResetTrigger]);
 
   return (
     <ChessContext.Provider
