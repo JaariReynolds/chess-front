@@ -5,7 +5,8 @@ export function useFetch<T>(
   url: string,
   setData: React.Dispatch<React.SetStateAction<ApiResponse<T>>>,
   options?: RequestInit,
-  fetchOnMount: boolean = true
+  fetchOnMount: boolean = true,
+  minResponseTimeMs: number = 0
 ) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -15,13 +16,21 @@ export function useFetch<T>(
     setIsLoading(true);
 
     try {
+      const startTime = Date.now();
+
       const response = await fetch(url, { ...options, signal: abortController.signal });
 
       if (!response.ok) {
-        throw new Error(`Rquest failed with status: ${response.status}`);
+        throw new Error(`Request failed with status: ${response.status}`);
       }
 
       const result: ApiResponse<T> = await response.json();
+
+      const elapsed = Date.now() - startTime;
+      if (elapsed < minResponseTimeMs) {
+        await new Promise((resolve) => setTimeout(resolve, minResponseTimeMs - elapsed));
+      }
+
       setData(result);
     } catch (error) {
       const typedError = error as Error;
