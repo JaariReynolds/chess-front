@@ -1,3 +1,9 @@
+.gameboard-container {
+  align-self: flex-start;
+  position: relative;
+  grid-area: 2/1;
+}
+
 .chessboard {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
