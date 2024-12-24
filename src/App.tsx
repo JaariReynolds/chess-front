@@ -1,4 +1,5 @@
 import "./App.css";
+import Error from "./components/Error";
 import Gameboard from "./components/gameboard";
 import Pieces from "./components/Pieces";
 import PromotionSelection from "./components/PromotionSelection";
@@ -17,6 +18,7 @@ function App() {
         </PromotionContextProvider>
         <Pieces />
       </div>
+      <Error />
       <Sidebar />
     </div>
   );
