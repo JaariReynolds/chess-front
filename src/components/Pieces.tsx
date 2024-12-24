@@ -17,8 +17,7 @@ export interface MovedPiece {
 }
 
 export default function Pieces() {
-  const { gameboard, standardResetTrigger, advancedResetTrigger, userTeamColour } =
-    useChessContext();
+  const { gameboard, userTeamColour } = useChessContext();
 
   const [unmovedPieces, setUnmovedPieces] = useState<(Piece | null)[][]>([]);
   const [movedPieces, setMovedPieces] = useState<(MovedPiece | null)[]>([]);
@@ -49,7 +48,7 @@ export default function Pieces() {
     setUnmovedPieces(gameboard.board);
     setMovedPieces([]);
     playMoveAudio();
-  }, [standardResetTrigger, advancedResetTrigger, gameboard.board]);
+  }, [gameboard.board]);
 
   useEffect(() => {
     if (isInitialRender || gameboard.lastPerformedAction == null) return;

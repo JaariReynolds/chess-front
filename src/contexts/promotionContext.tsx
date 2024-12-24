@@ -16,14 +16,14 @@ interface PromotionContext {
 const PromotionContext = createContext<PromotionContext | null>(null);
 
 export default function PromotionContextProvider({ children }: PromotionContextProviderProps) {
-  const { standardResetTrigger, advancedResetTrigger } = useChessContext();
+  const { gameboard } = useChessContext();
   const [promotionActionBase, setPromotionActionBase] = useState<Action | null>(null);
   const [promotionSelectionVisible, setPromotionSelectionVisible] = useState<boolean>(false);
 
   useEffect(() => {
     setPromotionActionBase(null);
     setPromotionSelectionVisible(false);
-  }, [standardResetTrigger, advancedResetTrigger]);
+  }, [gameboard]);
 
   return (
     <PromotionContext.Provider

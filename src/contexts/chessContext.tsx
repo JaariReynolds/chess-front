@@ -14,27 +14,17 @@ interface ChessContextProviderProps {
 
 interface ChessContext {
   gameboard: Gameboard;
-  setGameboard: React.Dispatch<React.SetStateAction<Gameboard>>;
   teamActions: AvailablePieceActions[];
-  setTeamActions: React.Dispatch<React.SetStateAction<AvailablePieceActions[]>>;
   selectedAction: Action | null;
   setSelectedAction: React.Dispatch<React.SetStateAction<Action | null>>;
   pieceActions: AvailablePieceActions | null;
   setPieceActions: React.Dispatch<React.SetStateAction<AvailablePieceActions | null>>;
-  standardResetTrigger: boolean;
-  setStandardResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-  advancedResetTrigger: boolean;
-  setAdvancedResetTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-  setBotActionTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   userTeamColour: TeamColour;
   setUserTeamColour: React.Dispatch<React.SetStateAction<TeamColour>>;
   fenString: string;
   setFenString: React.Dispatch<React.SetStateAction<string>>;
   fetchInitialBoard: () => Promise<void>;
   fetchFenBoard: () => Promise<void>;
-
-  error: Error | null;
-  loading: boolean;
 }
 
 const defaultGameboard: Gameboard = {
@@ -61,11 +51,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [pieceActions, setPieceActions] = useState<AvailablePieceActions | null>(null);
   const [userTeamColour, setUserTeamColour] = useState<TeamColour>("White");
   const [botActionTrigger, setBotActionTrigger] = useState<boolean>(false);
-
   const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [standardResetTrigger, setStandardResetTrigger] = useState<boolean>(false);
-  const [advancedResetTrigger, setAdvancedResetTrigger] = useState<boolean>(false);
 
   const [fenString, setFenString] = useState<string>("");
 
@@ -103,26 +89,17 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     <ChessContext.Provider
       value={{
         gameboard,
-        setGameboard,
         teamActions,
-        setTeamActions,
         selectedAction,
         setSelectedAction,
         pieceActions,
         setPieceActions,
-        standardResetTrigger,
-        setStandardResetTrigger,
-        advancedResetTrigger,
-        setAdvancedResetTrigger,
-        setBotActionTrigger,
         userTeamColour,
         setUserTeamColour,
         fenString,
         setFenString,
         fetchInitialBoard,
         fetchFenBoard,
-        error,
-        loading,
       }}
     >
       {children}
