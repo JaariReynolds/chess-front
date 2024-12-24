@@ -23,6 +23,7 @@ interface ChessContext {
   setUserTeamColour: React.Dispatch<React.SetStateAction<TeamColour>>;
   fenString: string;
   setFenString: React.Dispatch<React.SetStateAction<string>>;
+  error: Error | null;
   fetchInitialBoard: () => Promise<void>;
   fetchFenBoard: () => Promise<void>;
 }
@@ -58,7 +59,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [data, setData] = useState<ApiResponse<DataTransferObject>>({
     success: false,
     data: null,
-    error: "Api not yet called.",
+    error: null,
   });
 
   const { fetchInitialBoard } = useInitialChessFetch<DataTransferObject>(setData);
@@ -72,9 +73,9 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   useEffect(() => {
     setSelectedAction(null);
     setPieceActions(null);
+    setError(null);
 
     if (data.success) {
-      console.log(data.data?.gameboard.currentTeamColour);
       setGameboard(data.data!.gameboard);
       setTeamActions(data.data!.actions);
       if (data.data!.gameboard.currentTeamColour !== userTeamColour) {
@@ -98,6 +99,7 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setUserTeamColour,
         fenString,
         setFenString,
+        error,
         fetchInitialBoard,
         fetchFenBoard,
       }}

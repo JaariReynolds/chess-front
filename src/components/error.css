@@ -1,0 +1,12 @@
+.error-container {
+  /* display: none; */
+  /* grid-row: span 0; */
+}
+
+@media (max-width: 900px), (max-height: 500px) {
+  .error-container {
+    margin: auto;
+    height: 6rem;
+    width: 25rem;
+  }
+}
