@@ -1,6 +1,13 @@
 .error-container {
-  /* display: none; */
-  /* grid-row: span 0; */
+  background-color: red;
+  display: flex;
+  align-items: center;
+  background-color: #3d3b3c;
+  color: #998891;
+}
+
+.error-text {
+  padding: 0.5rem;
 }
 
 @media (max-width: 900px), (max-height: 500px) {
