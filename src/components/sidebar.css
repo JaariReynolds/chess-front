@@ -14,7 +14,8 @@
 
 @media (max-width: 900px), (max-height: 500px) {
   .sidebar-container {
-    grid-row: 3;
+    grid-row: auto;
+    grid-column: 1;
     margin: auto;
     height: 700px;
     width: 25rem;
