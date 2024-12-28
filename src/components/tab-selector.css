@@ -1,24 +1,21 @@
 .tab-selector {
   position: relative;
-  height: 2.25rem;
+  height: 2.2rem;
   display: grid;
   align-items: center;
   background-color: #3d3b3c;
   grid-template-columns: 1fr 1fr;
+  border-bottom: 2px solid rgb(80, 71, 76);
 }
 
 .tab-title {
   cursor: pointer;
   z-index: 1;
+  transition: color 0.25s cubic-bezier(0.24, 0.82, 0.22, 0.97);
 }
 
 .tab-indicator {
-  position: absolute;
-  left: 0;
-  top: 0;
-  border-radius: 0.5rem;
-  width: 50%;
   height: 100%;
-  background-color: rgba(80, 71, 76, 1);
+  background-color: rgb(80, 71, 76);
   transition: transform 0.25s cubic-bezier(0.24, 0.82, 0.22, 0.97);
 }

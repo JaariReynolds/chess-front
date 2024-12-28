@@ -16,10 +16,18 @@ export default function TabSelector({ setSelectedTab }: TabSelectorProps) {
 
   return (
     <div className="tab-selector">
-      <div className="tab-title" onClick={() => handleTabClick("Standard", 0)}>
+      <div
+        className="tab-title"
+        style={{ color: translateAmount == 100 ? "#998891" : "#fffff0" }}
+        onClick={() => handleTabClick("Standard", 0)}
+      >
         Standard
       </div>
-      <div className="tab-title" onClick={() => handleTabClick("Advanced", 100)}>
+      <div
+        className="tab-title"
+        style={{ color: translateAmount == 0 ? "#998891" : "#fffff0" }}
+        onClick={() => handleTabClick("Advanced", 100)}
+      >
         Advanced
       </div>
       <div className="tab-indicator" style={{ transform: `translate(${translateAmount}%)` }}></div>
