@@ -2,13 +2,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./reset.css";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { useChessContext } from "../contexts/chessContext";
+import { useEffect, useState } from "react";
 
 export default function AdvancedReset() {
   const { fenString, setFenString, fetchFenBoard } = useChessContext();
+  const [fetchTrigger, setFetchTrigger] = useState<boolean>(false);
+
   function handleReset() {
     setFenString((prev) => prev.trim());
-    fetchFenBoard();
+    setFetchTrigger((prev) => !prev);
   }
+
+  useEffect(() => {
+    if (fenString.length == 0) return;
+    fetchFenBoard();
+  }, [fetchTrigger]);
 
   return (
     <button
