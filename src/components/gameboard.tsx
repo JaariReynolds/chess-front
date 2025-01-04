@@ -62,32 +62,36 @@ export default function Gameboard() {
     if (gameboard.currentTeamColour != userTeamColour) return;
 
     const square = { x: rowIndex, y: colIndex };
+    const cursorStyle = getCursorStyle(square, teamActions, pieceActions);
     return {
       backgroundColor: getTileColour(square, pieceActions),
-      cursor: getCursorStyle(square, teamActions, pieceActions),
+      cursor: cursorStyle,
     } as React.CSSProperties;
   };
 
+  const buttonStyleClasses = (x: number, y: number, piece: Piece) => {
+    return `${
+      getCursorStyle({ x, y }, teamActions, pieceActions) == "pointer" &&
+      gameboard.currentTeamColour == userTeamColour
+        ? "clickable-tile"
+        : ""
+    } ${isCheckedKing(piece, gameboard) ? "checked" : ""}`;
+  };
+
   return (
-    <div className={`chessboard ${userTeamColour == "White" ? "" : "rotated"}`}>
+    <div
+      className={`chessboard ${userTeamColour == "White" ? "" : "rotated"}`}
+      style={{ pointerEvents: gameboard.currentTeamColour != userTeamColour ? "none" : "auto" }}
+    >
       {gameboard.board.map((row, rowIndex) =>
         row.map((piece, colIndex) => (
           <button
             type="button"
-            disabled={gameboard.currentTeamColour != userTeamColour}
             onClick={() => handleSquarePress(piece, { x: rowIndex, y: colIndex })}
             style={buttonStyle(rowIndex, colIndex)}
             key={parseInt(rowIndex.toString() + colIndex.toString())}
             className={`
-              square 
-              ${
-                getCursorStyle({ x: rowIndex, y: colIndex }, teamActions, pieceActions) ==
-                  "pointer" && gameboard.currentTeamColour == userTeamColour
-                  ? "clickable-tile"
-                  : ""
-              }
-              ${isCheckedKing(piece, gameboard) ? "checked" : ""}
-            `}
+              square ${buttonStyleClasses(rowIndex, colIndex, piece)}`}
           ></button>
         ))
       )}
