@@ -17,7 +17,7 @@ export default function useBotActionFetch<T>(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ gameboard: gameboard }),
+      body: JSON.stringify(gameboard),
     },
     false,
     BOT_PERFORM_ACTION_DELAY_MILLISECONDS
