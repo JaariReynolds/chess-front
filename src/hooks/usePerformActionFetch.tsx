@@ -4,7 +4,7 @@ import { GameboardActionRequestObject } from "../types/dataTransferObjects";
 import { Action, Gameboard } from "../types/gameboard";
 import { useFetch } from "./useFetch";
 
-export default function usePerformActionChessFetch<T>(
+export default function usePerformActionFetch<T>(
   setData: React.Dispatch<React.SetStateAction<ApiResponse<T>>>,
   gameboard: Gameboard,
   selectedAction: Action | null

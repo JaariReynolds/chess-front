@@ -2,7 +2,7 @@ import { ApiResponse } from "../types/apiResponse";
 import { FenStringObject } from "../types/dataTransferObjects";
 import { useFetch } from "./useFetch";
 
-export default function useFenChessFetch<T>(
+export default function useFenImportFetch<T>(
   fenString: string,
   setData: React.Dispatch<React.SetStateAction<ApiResponse<T>>>
 ) {

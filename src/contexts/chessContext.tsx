@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Action, AvailablePieceActions, Gameboard } from "../types/gameboard";
 import { TeamColour } from "../types/literals";
-import useInitialChessFetch from "../hooks/useInitialChessFetch";
-import useFenChessFetch from "../hooks/useFenChessFetch";
+import useInitialFetch from "../hooks/useInitialFetch";
+import useFenImportFetch from "../hooks/useFenImportFetch";
 import { ApiResponse } from "../types/apiResponse";
 import { DataTransferObject } from "../types/dataTransferObjects";
-import usePerformActionChessFetch from "../hooks/usePerformActionChessFetch";
+import usePerformActionFetch from "../hooks/usePerformActionFetch";
 import useBotActionFetch from "../hooks/useBotActionFetch";
 
 interface ChessContextProviderProps {
@@ -62,11 +62,11 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
     error: null,
   });
 
-  const { fetchInitialBoard } = useInitialChessFetch<DataTransferObject>(setData);
+  const { fetchInitialBoard } = useInitialFetch<DataTransferObject>(setData);
 
-  const { fetchFenBoard } = useFenChessFetch<DataTransferObject>(fenString, setData);
+  const { fetchFenBoard } = useFenImportFetch<DataTransferObject>(fenString, setData);
 
-  usePerformActionChessFetch(setData, gameboard, selectedAction);
+  usePerformActionFetch(setData, gameboard, selectedAction);
 
   useBotActionFetch(setData, gameboard, botActionTrigger);
 
