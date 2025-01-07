@@ -4,14 +4,22 @@ import { TeamColour } from "../types/literals";
 import "./team-colour-selector.css";
 
 export default function TeamColourSelector() {
-  const { userTeamColour, setUserTeamColour, fetchInitialBoard, fetchFenBoard } = useChessContext();
+  const { userTeamColour, selectedTab, setUserTeamColour, fetchInitialBoard, fetchFenBoard } =
+    useChessContext();
 
   function handleColourChange(event: React.ChangeEvent<HTMLInputElement>) {
     setUserTeamColour(event.target.value as TeamColour);
   }
 
   useEffect(() => {
-    fetchInitialBoard();
+    switch (selectedTab) {
+      case "Standard":
+        fetchInitialBoard();
+        break;
+      case "Advanced":
+        fetchFenBoard();
+        break;
+    }
   }, [userTeamColour]);
 
   return (
