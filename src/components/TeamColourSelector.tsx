@@ -1,11 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useEffect } from "react";
 import { useChessContext } from "../contexts/chessContext";
 import { TeamColour } from "../types/literals";
 import "./team-colour-selector.css";
 
 export default function TeamColourSelector() {
-  const { userTeamColour, selectedTab, setUserTeamColour, fetchInitialBoard, fetchFenBoard } =
-    useChessContext();
+  const {
+    userTeamColour,
+    selectedTab,
+    fenString,
+    setUserTeamColour,
+    fetchInitialBoard,
+    fetchFenBoard,
+  } = useChessContext();
 
   function handleColourChange(event: React.ChangeEvent<HTMLInputElement>) {
     setUserTeamColour(event.target.value as TeamColour);
@@ -17,7 +24,7 @@ export default function TeamColourSelector() {
         fetchInitialBoard();
         break;
       case "Advanced":
-        fetchFenBoard();
+        fenString.length == 0 ? fetchInitialBoard() : fetchFenBoard();
         break;
     }
   }, [userTeamColour]);
