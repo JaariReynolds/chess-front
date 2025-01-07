@@ -9,6 +9,7 @@ import "./export-fen.css";
 export default function ExportFen() {
   const { gameboard } = useChessContext();
   const [showFen, setShowFen] = useState<boolean>(false);
+  const [copyMessage, setCopyMessage] = useState<string>("");
   const [data, setData] = useState<ApiResponse<string>>({
     success: false,
     data: null,
@@ -26,7 +27,15 @@ export default function ExportFen() {
     setShowFen(true);
   }
 
-  function copyToClipboard() {}
+  async function copyToClipboard() {
+    try {
+      await navigator.clipboard.writeText(data.data!);
+      setCopyMessage("Copied to clipboard!");
+    } catch (error) {
+      setCopyMessage("Failed to copy!");
+      console.error(error);
+    }
+  }
 
   return (
     <div className="export-fen-container">
