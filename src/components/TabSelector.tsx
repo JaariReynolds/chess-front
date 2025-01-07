@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { TAB_NAMES } from "./ActionsTabs";
 import "./tab-selector.css";
+import { useChessContext } from "../contexts/chessContext";
+import { TAB_NAMES } from "../constants";
 
-interface TabSelectorProps {
-  setSelectedTab: React.Dispatch<React.SetStateAction<TAB_NAMES>>;
-}
+export default function TabSelector() {
+  const { setSelectedTab } = useChessContext();
 
-export default function TabSelector({ setSelectedTab }: TabSelectorProps) {
   const [translateAmount, setTranslateAmount] = useState<number>(0);
 
   function handleTabClick(tabName: TAB_NAMES, translateAmount: number) {

@@ -7,6 +7,7 @@ import { ApiResponse } from "../types/apiResponse";
 import { DataTransferObject } from "../types/dataTransferObjects";
 import usePerformActionFetch from "../hooks/usePerformActionFetch";
 import useBotActionFetch from "../hooks/useBotActionFetch";
+import { TAB_NAMES } from "../constants";
 
 interface ChessContextProviderProps {
   children: React.ReactNode;
@@ -23,6 +24,8 @@ interface ChessContext {
   setUserTeamColour: React.Dispatch<React.SetStateAction<TeamColour>>;
   fenString: string;
   setFenString: React.Dispatch<React.SetStateAction<string>>;
+  selectedTab: TAB_NAMES;
+  setSelectedTab: React.Dispatch<React.SetStateAction<TAB_NAMES>>;
   error: Error | null;
   fetchInitialBoard: () => Promise<void>;
   fetchFenBoard: () => Promise<void>;
@@ -52,6 +55,8 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
   const [pieceActions, setPieceActions] = useState<AvailablePieceActions | null>(null);
   const [userTeamColour, setUserTeamColour] = useState<TeamColour>("White");
   const [botActionTrigger, setBotActionTrigger] = useState<boolean>(false);
+  const [selectedTab, setSelectedTab] = useState<TAB_NAMES>("Standard");
+
   const [error, setError] = useState<Error | null>(null);
 
   const [fenString, setFenString] = useState<string>("");
@@ -99,6 +104,8 @@ export default function ChessContextProvider({ children }: ChessContextProviderP
         setUserTeamColour,
         fenString,
         setFenString,
+        selectedTab,
+        setSelectedTab,
         error,
         fetchInitialBoard,
         fetchFenBoard,
