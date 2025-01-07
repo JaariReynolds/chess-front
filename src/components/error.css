@@ -2,6 +2,7 @@
   background-color: red;
   display: flex;
   align-items: center;
+  justify-content: center;
   background-color: #3d3b3c;
   color: #998891;
 }
