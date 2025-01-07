@@ -1,6 +1,6 @@
 .export-fen-container {
-  overflow: hidden;
   max-width: 100%;
+  overflow: hidden;
 }
 
 .generate-button {
@@ -23,6 +23,8 @@
 }
 
 .fen-text {
+  overflow: hidden;
+  max-width: 100%;
   overflow-wrap: break-word;
   padding: 0.5rem;
 }

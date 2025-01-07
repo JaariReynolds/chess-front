@@ -9,6 +9,7 @@ import "./export-fen.css";
 export default function ExportFen() {
   const { gameboard } = useChessContext();
   const [showFen, setShowFen] = useState<boolean>(false);
+  const [fenOutput, setFenOutput] = useState<string>("");
   const [copyMessage, setCopyMessage] = useState<string>("");
   const [data, setData] = useState<ApiResponse<string>>({
     success: false,
@@ -16,24 +17,37 @@ export default function ExportFen() {
     error: null,
   });
 
+  const { fetchFenExport } = useFenExportFetch<string>(gameboard, setData);
+
+  // require the "Generate FEN" button to be pressed again when gameboard changes
   useEffect(() => {
     setShowFen(false);
   }, [gameboard]);
 
-  const { fetchFenExport } = useFenExportFetch<string>(gameboard, setData);
+  // show the copy message for 1 second after it has updated
+  useEffect(() => {
+    if (copyMessage.length == 0) return;
 
-  function handleButtonClick() {
-    fetchFenExport();
+    setFenOutput(copyMessage);
+    setTimeout(() => {
+      setFenOutput(data.success ? data.data! : data.error!);
+      setCopyMessage("");
+    }, 1000);
+  }, [copyMessage]);
+
+  // when data is set from fetch, set generated fen/error
+  useEffect(() => {
+    setFenOutput(data.success ? data.data! : data.error!);
     setShowFen(true);
-  }
+  }, [data]);
 
   async function copyToClipboard() {
     try {
+      if (data.data == null) throw Error("Nothing to copy!");
       await navigator.clipboard.writeText(data.data!);
       setCopyMessage("Copied to clipboard!");
     } catch (error) {
-      setCopyMessage("Failed to copy!");
-      console.error(error);
+      setCopyMessage((error as Error).message);
     }
   }
 
@@ -44,7 +58,7 @@ export default function ExportFen() {
           className="generate-button"
           type="button"
           title="generate FEN"
-          onClick={handleButtonClick}
+          onClick={fetchFenExport}
         >
           <FontAwesomeIcon icon={faDownload} fontSize="2.5rem" />
           <span>Generate FEN</span>
@@ -57,7 +71,7 @@ export default function ExportFen() {
           title="copy to clipboard"
           onClick={copyToClipboard}
         >
-          <div className="fen-text">{data.success ? data.data : data.error}</div>
+          <div className="fen-text">{fenOutput}</div>
           <FontAwesomeIcon className="copy-icon" icon={faCopy} fontSize="1.5rem" />
         </button>
       )}
