@@ -7,7 +7,7 @@ export default function useFenExportFetch<T>(
   setData: React.Dispatch<React.SetStateAction<ApiResponse<T>>>
 ) {
   const { fetchNow } = useFetch<T>(
-    "http://localhost:7179/api/chess/importFen",
+    "http://localhost:7179/api/chess/exportFen",
     setData,
     {
       method: "POST",
