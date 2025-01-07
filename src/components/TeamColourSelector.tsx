@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useChessContext } from "../contexts/chessContext";
 import { TeamColour } from "../types/literals";
+import "./team-colour-selector.css";
 
 export default function TeamColourSelector() {
-  const { userTeamColour, setUserTeamColour, fetchInitialBoard } = useChessContext();
+  const { userTeamColour, setUserTeamColour, fetchInitialBoard, fetchFenBoard } = useChessContext();
 
   function handleColourChange(event: React.ChangeEvent<HTMLInputElement>) {
     setUserTeamColour(event.target.value as TeamColour);

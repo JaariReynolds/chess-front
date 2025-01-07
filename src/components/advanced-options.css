@@ -1,7 +1,6 @@
 .advanced-options-container {
   display: grid;
   background-color: #3d3b3c;
-  padding-top: 1rem;
   row-gap: 1rem;
 }
 
