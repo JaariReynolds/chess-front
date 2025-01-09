@@ -7,7 +7,7 @@
 
 .grid-container {
   display: grid;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   overflow-y: auto;
   grid-template-columns: 0.25fr 1fr 1fr;
   scroll-behavior: smooth;
