@@ -1,12 +1,12 @@
-.reset-container {
+.standard-reset-container {
   height: 5rem;
 }
 
-.reset-container:hover .reset-icon {
+.standard-reset-container:hover .reset-icon {
   animation: rotate-bounce 1.2s ease-in-out infinite;
 }
 
-.game-over .reset-icon {
+.rotate-bounce {
   animation: rotate-bounce 1.2s ease-in-out infinite;
 }
 
@@ -14,10 +14,10 @@
   0% {
     transform: rotate(0deg);
   }
-  90% {
+  80% {
     transform: rotate(360deg);
   }
-  95% {
+  90% {
     transform: rotate(360deg) scale(1.1);
   }
   100% {
