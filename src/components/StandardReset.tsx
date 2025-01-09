@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useChessContext } from "../contexts/chessContext";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
-import "./reset.css";
+import "./standard-reset.css";
 
 export default function StandardReset() {
   const { fetchInitialBoard, gameboard } = useChessContext();
