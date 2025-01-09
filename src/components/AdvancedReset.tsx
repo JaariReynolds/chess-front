@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./reset.css";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { useChessContext } from "../contexts/chessContext";
 import { useEffect, useState } from "react";
+import "./advanced-reset.css";
 
 export default function AdvancedReset() {
-  const { fenString, setFenString, fetchFenBoard } = useChessContext();
+  const { fenString, gameboard, setFenString, fetchFenBoard } = useChessContext();
   const [fetchTrigger, setFetchTrigger] = useState<boolean>(false);
 
   function handleReset() {
@@ -20,12 +20,15 @@ export default function AdvancedReset() {
 
   return (
     <button
-      className="reset-container"
+      className={`advanced-reset-container`}
       title="load from FEN"
       disabled={fenString.length == 0}
       onClick={handleReset}
     >
-      <FontAwesomeIcon icon={faUpload} size="3x" />
+      <div className={`button-container ${gameboard.isGameOver ? "slow-bounce" : ""}`}>
+        <FontAwesomeIcon className={`reset-icon`} icon={faUpload} fontSize="3rem" />
+        <span>Load FEN</span>
+      </div>
     </button>
   );
 }

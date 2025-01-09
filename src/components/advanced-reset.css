@@ -1,0 +1,30 @@
+.advanced-reset-container {
+  height: 5rem;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.advanced-reset-container:hover .button-container {
+  animation: slow-bounce 1.2s ease-in-out infinite;
+}
+
+.slow-bounce {
+  animation: slow-bounce 1.2s ease-in-out infinite;
+}
+
+@keyframes slow-bounce {
+  70% {
+    transform: scale(1);
+  }
+  85% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
