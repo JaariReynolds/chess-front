@@ -4,7 +4,6 @@ import { Piece, Square } from "../types/gameboard";
 import { arePiecesEqual } from "../functions/objectEquality";
 import "./piece-component.css";
 import MovingPiece from "./MovingPiece";
-import { playMoveAudio, playActionAudio } from "../functions/playAudio";
 import { PIECE_SIZE_MULTIPLIER, TRANSITION_LENGTH_MILLISECONDS } from "../constants";
 import isSinglePieceAction from "../functions/isSinglePieceAction";
 import handleCastleMovedPieces from "../functions/handleCastleMovedPieces";
@@ -47,14 +46,12 @@ export default function Pieces() {
   useEffect(() => {
     setUnmovedPieces(gameboard.board);
     setMovedPieces([]);
-    playMoveAudio();
   }, [gameboard.board]);
 
   useEffect(() => {
     if (isInitialRender || gameboard.lastPerformedAction == null) return;
 
     const action = gameboard.lastPerformedAction;
-    playActionAudio(action.algebraicNotation);
 
     // temp variable as this needs to be read later as well
     let tempMovedPieces: (MovedPiece | null)[];

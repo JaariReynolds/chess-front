@@ -1,11 +1,17 @@
 import { useChessContext } from "../contexts/chessContext";
 import "./check-status.css";
+import { playAudio } from "../functions/playAudio";
+import { useEffect } from "react";
 
 export default function CheckStatus() {
   const { gameboard } = useChessContext();
 
   const checkTeam = gameboard.checkTeamColour;
   const checkmateTeam = gameboard.checkmateTeamColour;
+
+  useEffect(() => {
+    playAudio(gameboard);
+  }, [gameboard]);
 
   function getCheckStatusMessage(): string {
     if (checkmateTeam != null) {
